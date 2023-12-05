@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 
 import random
+import sys
+import yaml
 
+
+shipFile = sys.argv[1]
+ 
 ships = {
   'lab ship' : { 'type':'lab ship', 'hull' : 400, 'jump' : 2, 'cost' : 136374300 }
   }
@@ -60,7 +65,8 @@ urbanEncounters = [
 
 def main(): 
   # your ship details
-  ship = ships['lab ship']
+  with open(shipFile, 'r') as file:
+    ship = yaml.safe_load(file)
   print('### YOUR SHIP')
   print(ship)
   # mission
