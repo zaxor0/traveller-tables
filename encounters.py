@@ -2,6 +2,10 @@
 
 import random
 
+ships = {
+  'lab ship' : { 'type':'lab ship', 'hull' : 400, 'jump' : 2, 'cost' : 136374300 }
+  }
+
 alliesEnemies = [ 
  "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief"
  "Free Trader", "Explorer", "Marine Captain", "Corporate", "Executive", "Researcher", "Cultural Attaché ", "Religious Leader ", "Conspirator",
@@ -55,14 +59,24 @@ urbanEncounters = [
   ]
 
 def main(): 
-  for i in range(10):
-    patronRoll = int(diceRoll(1,len(patrons)) - 1)
-    randomPatron = sorted(patrons)[patronRoll]
-    print("Patron:",randomPatron)
-    missionRoll = int(diceRoll(1,len(missions)) - 1)
-    randomMission = sorted(missions)[missionRoll]
-    print("Mission:",randomMission)
-    print()
+  # your ship details
+  ship = ships['lab ship']
+  print('### YOUR SHIP')
+  print(ship)
+  # mission
+  patronRoll = int(diceRoll(1,len(patrons)) - 1)
+  randomPatron = sorted(patrons)[patronRoll]
+  missionRoll = int(diceRoll(1,len(missions)) - 1)
+  randomMission = sorted(missions)[missionRoll]
+  parsecs = diceRoll(1, 6)          # distance of 1d6 parsecs
+  bonus = diceRoll(5, 6) * .01      # bonus percent on top, 5 to 30%
+  jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
+  print('\n### MISSION')
+  print("Patron:",randomPatron)
+  print("Mission:",randomMission)
+  print('Distance:',parsecs,'parsecs away')
+  print('Jumps:',jumps)
+  operatingCosts(ship, parsecs, jumps, bonus)
 
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
@@ -73,5 +87,26 @@ def diceRoll(dieCount,dieSides):
     dieTotal += dieVal
   return(dieTotal)
 
+def operatingCosts(ship, parsecs, jumps, bonus):
+  print('\n### INCOME EXPENSES REVENUE')
+  mortgage = ship['cost'] / 240   
+  weeklyMaintenance = (ship['cost'] * .001) / 48   
+  # fuel is 10% of hull per parsec
+  fuelUsage = (ship['hull'] * .1 ) * (parsecs * 2)
+  fuelExpense = int(fuelUsage * 500)
+  # each jump takes 1 week
+  mortgageExpense = int(mortgage / 4 * jumps)
+  maintenanceExpense = int(weeklyMaintenance * jumps)
+  expenses = mortgageExpense + maintenanceExpense + fuelExpense
+  bonus = int(expenses *  bonus)
+  income = bonus + expenses 
+  # output
+  formattedIncome = "{:,}".format(income)
+  print('Income: Cr',formattedIncome)
+  print('Expected Expense:',expenses)
+  print('...mortage:', mortgageExpense) 
+  print('...maintenance:', maintenanceExpense) 
+  print('...fuel:', fuelExpense) 
+  print('Revenue: ',bonus)
 
 main()
