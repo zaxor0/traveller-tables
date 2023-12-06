@@ -7,6 +7,7 @@ import yaml
 
 shipFile = sys.argv[1]
  
+# sample for mgt 2e core rules
 ships = {
   'lab ship' : { 'type':'lab ship', 'hull' : 400, 'jump' : 2, 'cost' : 136374300 }
   }
@@ -18,6 +19,16 @@ locations = [
    "Starport", "Lunar - City", "Lunar - Outpost", "Asteroid - Base", "Capital Ship", "Lunar - Military"  # 7 to 12
   ]
 
+# 2d6 distances, homebrew 0 means same system
+parsecsAway = [ 'null', 'null', 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5 ]
+
+# from mgt2e core rules, pg 163
+distances = {
+  "primary world" : 150000000, "close neighbor world" : 45000000, "far neighbor world" : 255000000, 
+  "close gas giant" : 600000000, "far gas giant" : 900000000
+  }
+
+# from mgt2e core rules
 alliesEnemies = [ 
  "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief"
  "Free Trader", "Explorer", "Marine Captain", "Corporate", "Executive", "Researcher", "Cultural Attaché ", "Religious Leader ", "Conspirator",
@@ -26,13 +37,15 @@ alliesEnemies = [
  "Alien Ambassador", "Smuggler", "Weapons Inspector", "Elder Statesman", "Planetary Warlord", "Imperial Agent"
  ]
 
+# from mgt2e core rules pg 93
 patrons = [
   "Assassin","Smuggler","Terrorist","Embezzler","Thief","Revolutionary","Clerk","Administrator","Mayor","Minor Noble","Physician","Tribal Leader",
   "Diplomat","Courier","Spy","Ambassador","Noble","Police Officer","Merchant","Free Trader","Broker","Corporate Executive","Corporate Agent","Financier",
-  "Belter","Researcher","Naval Officer","Pilot","Starport Administrator","Scout","Alien","Playboy","Stowaway","Family Relative","Agent of a Foreign","Power",
+  "Belter","Researcher","Naval Officer","Pilot","Starport Administrator","Scout","Alien","Playboy","Stowaway","Family Relative","Agent of a Foreign Power",
   "Imperial Agent"
 ]
 
+# from mgt2e core rules pg 93
 missions = [
   "Assassinate a target", "Frame a target", "Destroy a target", "Steal from a target", "Aid in a burglary", "Stop a burglary", 
   "Retrieve data or an object from a secure facility", "Discredit a target", "Find a lost cargo", "Find a lost person", "Deceive a target", 
@@ -42,6 +55,28 @@ missions = [
   "Hijack a ship", "Entertain a noble", "Protect a target", "Save a target", "Aid a target", "It is a trap – the Patron intends to betray the Traveller" 
   ]
 
+# from mgt2e core rules pg 94
+targets = [
+  'Common Trade Goods','Common Trade Goods','Random Trade Goods','Random Trade Goods','Illegal Trade Goods','Illegal Trade Goods','Computer Data',
+  'Alien Artefact','Personal Effects','Work of Art','Historical Artefact','Weapon','Starport','Asteroid Base','City','Research station','Bar or Nightclub',
+  'Medical Facility','Roll on the Random Patron table','Roll on the Random Patron table','Roll on the Random Patron table',
+  'Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Local Government','Planetary',
+  'Government','Corporation','Imperial Intelligence','Criminal Syndicate','Criminal Gang','Free Trader','Yacht','Cargo Hauler','Police Cutter',
+  'Space Station','Warship'
+  ]
+
+# from mgt2e core rules pg 94
+oppositions = [
+  'Animals','Large animal','Bandits & thieves','Fearful peasants','Local authorities','Local lord','Criminals – thugs or corsairs',
+  'Criminals – thieves or saboteurs','Police – ordinary','security forces','Police – inspectors & detectives','Corporate – agents',
+  'Corporate – legal','Starport security','Imperial marines','Interstellar','corporation','Alien – private citizen or corporation',
+  'Alien – government ','Space travellers or rival ship','Target is in deep space','Target is in orbit','Hostile weather conditions',
+  'Dangerous organisms or radiation','Target is in a dangerous region','Target is in a restricted area','Target is under electronic observation',
+  'Hostile guard robots or ships','Biometric identification required','Mechanical failure or computer hacking','Travellers are under surveillance',
+  'Out of fuel or ammunition','Police investigation','Legal barriers','Nobility','Government officials','Target is protected by a third party','Hostages'
+  ]
+
+# from mgt2e core rules pg 95
 starportEncounters = [
   "Maintenance robot at work", "Trade ship arrives or departs", "Captain argues about fuel prices",
   "News report about pirate activity on a starport screen draws a crowd", "Bored clerk makes life difficult for the Travellers", 
@@ -58,6 +93,7 @@ starportEncounters = [
   "Starport is temporarily shut down for security reasons", "Damaged ship makes emergency docking"
   ]
 
+# from mgt2e core rules pg 96
 urbanEncounters = [
   "Street riot in progress", "Travellers pass a charming restaurant", "Trader in illegal goods", "Public argument", "Sudden change of weather",
   "Travellers are asked for help", "Travellers pass a bar or pub", "Travellers pass a theatre or other entertainment venue ", "Curiosity Shop",
@@ -119,7 +155,7 @@ def main():
 
   # patron 
   patronRoll = int(diceRoll(1,len(patrons)) - 1)
-  randomPatron = sorted(patrons)[patronRoll]
+  patron = sorted(patrons)[patronRoll]
   if diceRoll(1,2) == 2: 
     forelist = mascNames
   else: 
@@ -131,14 +167,34 @@ def main():
 
   # mission
   missionRoll = int(diceRoll(1,len(missions)) - 1)
-  randomMission = sorted(missions)[missionRoll]
-  parsecs = diceRoll(1, 6)          # distance of 1d6 parsecs
-  jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
+  mission = sorted(missions)[missionRoll]
+  targetRoll = int(diceRoll(1,len(targets)) - 1)
+  target = sorted(targets)[targetRoll]
+  oppositionRoll = int(diceRoll(1,len(oppositions)) - 1)
+  opposition = sorted(oppositions)[oppositionRoll]
+  parsecs = parsecsAway[diceRoll(2, 6)]
   location = locations[diceRoll(2,6)]
+  # exceptions
+  if mission == "Explore a new system" and parsecs == 0:
+    parsecs = parsecsAway[diceRoll(2, 6)]
+  elif "It is a trap" in mission:
+    missionRoll = int(diceRoll(1,len(missions)) - 1)
+    mission = sorted(missions)[missionRoll]
+    mission = mission + "*"
+  elif mission == "Salvage a ship":
+    location == "near gas giant"
+  else:
+    False
+  jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
   bonus = diceRoll(5, 6) * .01      # bonus percent on top, 5 to 30%
+  # threat multiplier
+  if 'Military' in location:
+    bonus = bonus * (diceRoll(1,4) + 1)
   print('\n### MISSION')
-  print("Patron:",randomPatron,"-",surname, forename)
-  print("Mission:",randomMission)
+  print("Patron:", patron,"-",surname, forename)
+  print("Mission:",mission)
+  print("Target:",target)
+  print("Opposition:",opposition)
   print('Location:', location)
   print('Distance:',parsecs,'parsecs away')
   print('Jumps:',jumps)
@@ -155,24 +211,34 @@ def diceRoll(dieCount,dieSides):
 
 def operatingCosts(ship, parsecs, jumps, bonus):
   print('\n### INCOME EXPENSES REVENUE')
-  mortgage = ship['cost'] / 240   
-  weeklyMaintenance = (ship['cost'] * .001) / 48   
-  # fuel is 10% of hull per parsec
-  fuelUsage = (ship['hull'] * .1 ) * (parsecs * 2)
-  fuelExpense = int(fuelUsage * 500)
-  # each jump takes 1 week
-  mortgageExpense = int(mortgage / 4 * jumps)
-  maintenanceExpense = int(weeklyMaintenance * jumps)
-  expenses = mortgageExpense + maintenanceExpense + fuelExpense
-  bonus = int(expenses *  bonus)
-  income = bonus + expenses 
-  # output
-  formattedIncome = "{:,}".format(income)
-  print('Income: Cr',formattedIncome)
-  print('Expected Expense:',expenses)
-  print('...mortage:', mortgageExpense) 
-  print('...maintenance:', maintenanceExpense) 
-  print('...fuel:', fuelExpense) 
-  print('Revenue: ',bonus)
+  if parsecs > 0:
+    mortgage = ship['cost'] / 240   
+    weeklyMaintenance = (ship['cost'] * .001) / 48   
+    # fuel is 10% of hull per parsec
+    fuelUsage = (ship['hull'] * .1 ) * (parsecs * 2)
+    fuelExpense = int(fuelUsage * 500)
+    # each jump takes 1 week
+    mortgageExpense = int(mortgage / 4 * jumps)
+    maintenanceExpense = int(weeklyMaintenance * jumps)
+    expenses = mortgageExpense + maintenanceExpense + fuelExpense
+    bonus = int(expenses *  bonus)
+    income = bonus + expenses 
+    # output
+    formattedIncome = "{:,}".format(income)
+    print('Income: Cr',formattedIncome)
+    print('Expected Expense:',expenses)
+    print('...mortage:', mortgageExpense) 
+    print('...maintenance:', maintenanceExpense) 
+    print('...fuel:', fuelExpense) 
+    print('Revenue: ',bonus)
+  else:
+    expenses = 0 
+    bonus = int(diceRoll(4,6) * 1000)
+    income = bonus + expenses 
+    # output
+    formattedIncome = "{:,}".format(income)
+    print('Income: Cr',formattedIncome)
+    print('Expected Expense:',expenses)
+    print('Revenue: ',bonus)
 
 main()
