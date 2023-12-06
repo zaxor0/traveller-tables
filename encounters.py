@@ -70,6 +70,7 @@ urbanEncounters = [
   "Sports event", "Imperial Dignitary"
   ]
 
+# pooled from outputs from donjon.bin.sh
 femNames = [
   "Amber","Andann","Anis","Arah","Arel","Athen","Ather","Berle","Betty","Bianca","Caitlan","Carea","Cayla","Ceridwen","Chelsea",
   "Chrotha","Delphine","Dianie","Dory","Elan","Eloise","Elsa","Elsy","Erer","Eveyln","Fae","Freya","Geneva","Guinevere","Haley",
@@ -80,6 +81,7 @@ femNames = [
   "Tina","Tine","Tinie","Trinity","Ulla","Vely","Verona","Wyn","Xylona","Yvone","Zuri"
   ]
 
+# pooled from outputs from donjon.bin.sh
 mascNames = [
   "Ahren","Aidan","Alex","Amer","Andold","Andres","Anton","Aron","Arott","Avery","Avip","Bertev","Braymy","Britt","Brodric","Camden","Carter",
   "Chraige","Chroge","Cyan","Damien","Damy","Darius","Dave","Derrik","Dony","Earthur","Edwas","Elon","Ethan","Ezra","Finnegan","Fruce","Galen",
@@ -90,6 +92,7 @@ mascNames = [
   "Yavin","Yukon","Yves","Ziven"
   ]
 
+# pooled from outputs from donjon.bin.sh
 surnames = [
   "Albach","Alcantar","Alder","Alers","Andes","Arciams","Arciaz","Arkes","Artips","Avant","Avin","Avison","Bailee","Bakins","Bancroft",
   "Barick","Barrick","Basset","Belley","Belly","Bentzen","Bowdoin","Brosson","Buccheri","Butlee","Byrn","Caldera","Campbak","Campbenn","Carrick",
