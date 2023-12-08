@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import datetime
 import math
 import random
 import sys
@@ -181,9 +182,7 @@ def main():
   # your ship details
   with open(shipFile, 'r') as file:
     ship = yaml.safe_load(file)
-  print('### YOUR SHIP')
-  print(ship)
-  
+
   # patron 
   patronRoll = int(diceRoll(1,len(patrons)) - 1)
   patron = sorted(patrons)[patronRoll]
@@ -224,6 +223,7 @@ def main():
       relevantPlanet = random.choice(["close gas gaint","far gas giant"])
     location = sorted(systemPOI)[diceRoll(1,8) - 1] 
     location = location + " (SWN pg. 171)"
+
   # if same system calc distance from primary world
   if parsecs == 0: 
     standardDistance = distances[relevantPlanet]
@@ -236,9 +236,18 @@ def main():
   # modulate the distance from 80 to 120% of standard distance
   distance = int(standardDistance * (.8 + (random.randint(0,40) / 100)))
   acceleration = ship['thrust'] * 10
-  systemTravelTime = int(2 * math.sqrt((distance *1000) / acceleration))
+  systemTravelSeconds = int(2 * math.sqrt((distance *1000) / acceleration))
+  systemTravelDays = int(systemTravelSeconds / 86400)
+  systemTravelTime = str(datetime.timedelta(seconds=systemTravelSeconds))
+  distance = "{:,}".format(distance)
 
-  days = diceRoll(2,4)                   # additional days to complete on top of jumps
+  days = diceRoll(3,4) # additional days to complete on top of jumps
+  if (days - systemTravelDays) == 1:
+    print('...adding 1 to days:',days)
+    days += 1 # always have at least 48 for a mission
+  if (days - systemTravelDays) == 0:
+    print('...adding 2 to days:',days)
+    days += 2 # always have at least 48 for a mission
   earlyBonus = int(diceRoll(1,6) * 1000) # bonus for each day completed early
 
   # exceptions
@@ -261,8 +270,15 @@ def main():
     False
   jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
   bonusDice = 4 + jumps
-  bonus = diceRoll(bonusDice, 6) * .01      # bonus percent on top, 5 to 30%
-  totalDays = int((jumps * 7) + days)
+  bonus = diceRoll(bonusDice, 6) * .01      
+  # return travel for same sytem would be same as the in system time 
+  if parsecs == 0:
+    returnTravel = int((2 * systemTravelSeconds) / 86400)
+  # otherwise we can assume 2 days, from star to primary planet at thrust of 2g
+  else:
+    returnTravel = 2
+  totalDays = int((jumps * 7) + days + returnTravel)
+  travelTime = int((jumps * 7) + systemTravelDays + returnTravel)
 
   # threat multiplier
   threat = 0
@@ -278,7 +294,7 @@ def main():
     bonus = bonus * (diceRoll(1,4) + threat)
 
   # output to screen
-  print('\n### MISSION')
+  print('### MISSION')
   print("Patron:", patron,"-",surname, forename)
   print("Mission:",mission)
   print('Threat level:',threat)
@@ -287,15 +303,17 @@ def main():
   print('Location:', location)
   print('\n### TRAVEL')
   if jumps > 0:
-    print("Days to complete:", totalDays,"...",days,"on arrival")
     print('Distance:',parsecs,'parsecs')
     print('Distance in system:',distance,'km')
-    print('Time in thrust:',systemTravelTime,'seconds')
+    print('Time in thrust:',systemTravelTime,'at thrust',ship['thrust'])
     print('Total Jumps:',jumps,"(round trip)")
+    print("Days to complete:", totalDays)
+    print("Days in travel:",travelTime) 
   else:
     print('Distance in system:',distance,'km')
     print("Days to complete:", totalDays)
-  operatingCosts(ship, parsecs, jumps, bonus, days)
+    print("Days in travel:",travelTime) 
+  operatingCosts(ship, parsecs, jumps, bonus, totalDays)
 
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
@@ -328,13 +346,14 @@ def operatingCosts(ship, parsecs, jumps, bonus, days):
     income = bonus + expenses 
     # output
     formattedIncome = "{:,}".format(income)
+    formattedBonus = "{:,}".format(bonus)
     print('Income: Cr',formattedIncome)
     print('Expected Expense:',expenses)
     print('...crew salary:',salaryExpense)
     print('...mortage:', mortgageExpense) 
     print('...maintenance:', maintenanceExpense) 
     print('...fuel:', fuelExpense) 
-    print('Revenue: ',bonus)
+    print('Revenue: Cr ',formattedBonus)
   else:
     # crew salary
     salaryExpense = 0
@@ -346,8 +365,9 @@ def operatingCosts(ship, parsecs, jumps, bonus, days):
     income = bonus + expenses 
     # output
     formattedIncome = "{:,}".format(income)
+    formattedBonus = "{:,}".format(bonus)
     print('Income: Cr',formattedIncome)
     print('Expected Expense:',expenses)
-    print('Revenue: ',bonus)
+    print('Revenue: Cr',formattedBonus)
 
 main()
