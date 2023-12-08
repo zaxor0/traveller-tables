@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import math
 import random
 import sys
 import yaml
@@ -16,10 +17,27 @@ ships = {
 locations = [
    "null", "null", # 0 and 1
    "Planet - Military", "Planet - Remote Location", "Planet - Rural", "Planet - City", "Starport",     # 2 to 6
-   "Starport", "Orbital Station", "Lunar - City", "Lunar - Outpost", "Capital Ship", "Lunar - Military"  # 7 to 12
+   "Starport", "Lunar - City", "Lunar - Outpost", "System POI", "Capital Ship", "Lunar - Military"  # 7 to 12
   ]
 
-# 2d6 distances, homebrew 0 means same system
+# system points of interest, per SWN page 170
+systemPOI = {
+  "Deep-space station" : { 
+    "occupied" : { "Dangerously odd transhumans", "Freeze-dried ancient corpses", "Secretive military observers", 
+                   "Eccentric oligarch and minions", "Deranged but brilliant scientist" },  
+    "situation" : { "Systems breaking down", "Foreign sabotage attempt", "Black market for the elite", 
+                    "Vault for dangerous pretech", "Supply base for pirates"}
+   },
+  "Asteroid base" : {},
+  "Remote moon base" : {},
+  "Ancient orbital ruin" : {},
+  "Research base" : {},
+  "Asteroid belt" : {},
+  "Gas giant mine" : {},
+  "Refueling station" : {}
+}
+
+# 2d6 distances, homebrew, 0 means same system
 parsecsAway = [ 'null', 'null', 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5 ]
 
 # from mgt2e core rules, pg 163, solar is mine its less than mercury
@@ -27,6 +45,14 @@ distances = {
   "solar" : 50000000, "primary world" : 150000000, "close neighbor world" : 45000000, 
   "far neighbor world" : 255000000, "close gas giant" : 600000000, "far gas giant" : 900000000
   }
+
+# 2d6 planets, homebrew, primary planet most likely
+planets = [ "null", "null", 
+  "far gas giant", "close gas giant", "far neighbor world", "close neighbor world", # 2 to 5 
+  "primary world","primary world","primary world",                                   # 6 to 8
+  "close neighbor world","far neighbor world","close gas giant", "far gas giant"    # 9 to 12
+  ]
+
 
 # from mgt2e core rules
 alliesEnemies = [ 
@@ -178,7 +204,40 @@ def main():
   oppositionRoll = int(diceRoll(1,len(oppositions)) - 1)
   opposition = sorted(oppositions)[oppositionRoll]
   parsecs = parsecsAway[diceRoll(2, 6)]
+
+  # location in system
   location = locations[diceRoll(2,6)]
+  relevantPlanet = planets[diceRoll(2,6)]
+  # planet and moon location
+  if "Planet" in location:
+    location = location + " - " + relevantPlanet
+  if "Lunar" in location:
+    location = relevantPlanet + "'s " + location
+  # random point of interest in a system
+  if location == "Starport":
+    relevantPlanet = "primary world"
+    location = location + " orbiting " + relevantPlanet
+  if location == "Capital Ship":
+    location = location + " orbiting " + relevantPlanet
+  if location == "System POI":
+    if "Gas gaint" in location:
+      relevantPlanet = random.choice(["close gas gaint","far gas giant"])
+    location = sorted(systemPOI)[diceRoll(1,8) - 1] 
+    location = location + " (SWN pg. 171)"
+  # if same system calc distance from primary world
+  if parsecs == 0: 
+    standardDistance = distances[relevantPlanet]
+  # if different system, calc distance from system's star
+  elif relevantPlanet == "primary world":
+    standardDistance = distances[relevantPlanet]
+  # distances per pg 163 of mgt2e are from the perspective of the primary world, so we need to add in its distance from the star
+  else:
+    standardDistance = distances[relevantPlanet] + distances["primary world"]
+  # modulate the distance from 80 to 120% of standard distance
+  distance = int(standardDistance * (.8 + (random.randint(0,40) / 100)))
+  acceleration = ship['thrust'] * 10
+  systemTravelTime = int(2 * math.sqrt((distance *1000) / acceleration))
+
   days = diceRoll(2,4)                   # additional days to complete on top of jumps
   earlyBonus = int(diceRoll(1,6) * 1000) # bonus for each day completed early
 
@@ -230,8 +289,11 @@ def main():
   if jumps > 0:
     print("Days to complete:", totalDays,"...",days,"on arrival")
     print('Distance:',parsecs,'parsecs')
+    print('Distance in system:',distance,'km')
+    print('Time in thrust:',systemTravelTime,'seconds')
     print('Total Jumps:',jumps,"(round trip)")
   else:
+    print('Distance in system:',distance,'km')
     print("Days to complete:", totalDays)
   operatingCosts(ship, parsecs, jumps, bonus, days)
 
