@@ -69,7 +69,7 @@ targets = [
 oppositions = [
   'Animals','Large animal','Bandits & thieves','Fearful peasants','Local authorities','Local lord','Criminals – thugs or corsairs',
   'Criminals – thieves or saboteurs','Police – ordinary security forces','Police – inspectors & detectives','Corporate – agents',
-  'Corporate – legal','Starport security','Imperial marines','Interstellar','corporation','Alien – private citizen or corporation',
+  'Corporate – legal','Starport security','Imperial marines','Interstellar corporation','Alien – private citizen or corporation',
   'Alien – government ','Space travellers or rival ship','Target is in deep space','Target is in orbit','Hostile weather conditions',
   'Dangerous organisms or radiation','Target is in a dangerous region','Target is in a restricted area','Target is under electronic observation',
   'Hostile guard robots or ships','Biometric identification required','Mechanical failure or computer hacking','Travellers are under surveillance',
@@ -105,6 +105,11 @@ urbanEncounters = [
   "News broadcast on public screens", "Sudden curfew or other restriction on", "movement", "Unusually empty or quiet street", "Public announcement",
   "Sports event", "Imperial Dignitary"
   ]
+
+# from mgt2e core rules pg 154, payment every 4 weeks
+salaries = {
+  "pilot" : 6000, "astrogator" : 5000, "engineer" : 4000, "steward" : 2000, "medic" : 3000, "gunner" : 1000, "marine" : 1000
+  }
 
 # pooled from outputs from donjon.bin.sh
 femNames = [
@@ -152,7 +157,7 @@ def main():
     ship = yaml.safe_load(file)
   print('### YOUR SHIP')
   print(ship)
-
+  
   # patron 
   patronRoll = int(diceRoll(1,len(patrons)) - 1)
   patron = sorted(patrons)[patronRoll]
@@ -174,6 +179,8 @@ def main():
   opposition = sorted(oppositions)[oppositionRoll]
   parsecs = parsecsAway[diceRoll(2, 6)]
   location = locations[diceRoll(2,6)]
+  days = diceRoll(2,4)                   # additional days to complete on top of jumps
+  earlyBonus = int(diceRoll(1,6) * 1000) # bonus for each day completed early
 
   # exceptions
   if mission == "Explore a new system" and parsecs == 0:
@@ -196,6 +203,7 @@ def main():
   jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
   bonusDice = 4 + jumps
   bonus = diceRoll(bonusDice, 6) * .01      # bonus percent on top, 5 to 30%
+  totalDays = int((jumps * 7) + days)
 
   # threat multiplier
   threat = 0
@@ -208,7 +216,6 @@ def main():
   if ('dangerous' or 'Assassinate' or 'Steal' or 'Aid in burglary' or 'Sabotage' or 'Hijack') in mission:
     threat += 1
   if threat > 0:
-    print('dangerous details')
     bonus = bonus * (diceRoll(1,4) + threat)
 
   # output to screen
@@ -219,9 +226,14 @@ def main():
   print("Target:",target)
   print("Opposition:",opposition)
   print('Location:', location)
-  print('Distance:',parsecs,'parsecs')
-  print('Jumps:',jumps)
-  operatingCosts(ship, parsecs, jumps, bonus)
+  print('\n### TRAVEL')
+  if jumps > 0:
+    print("Days to complete:", totalDays,"...",days,"on arrival")
+    print('Distance:',parsecs,'parsecs')
+    print('Total Jumps:',jumps,"(round trip)")
+  else:
+    print("Days to complete:", totalDays)
+  operatingCosts(ship, parsecs, jumps, bonus, days)
 
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
@@ -232,7 +244,7 @@ def diceRoll(dieCount,dieSides):
     dieTotal += dieVal
   return(dieTotal)
 
-def operatingCosts(ship, parsecs, jumps, bonus):
+def operatingCosts(ship, parsecs, jumps, bonus, days):
   print('\n### INCOME EXPENSES REVENUE')
   if parsecs > 0:
     mortgage = ship['cost'] / 240   
@@ -243,19 +255,31 @@ def operatingCosts(ship, parsecs, jumps, bonus):
     # each jump takes 1 week
     mortgageExpense = int(mortgage / 4 * jumps)
     maintenanceExpense = int(weeklyMaintenance * jumps)
-    expenses = mortgageExpense + maintenanceExpense + fuelExpense
+    # crew salary
+    salaryExpense = 0
+    for crew in ship['crew']:
+      crewSalary = int(salaries[crew] / 4) * jumps
+      salaryExpense += crewSalary
+    # total
+    expenses = mortgageExpense + maintenanceExpense + fuelExpense + salaryExpense
     bonus = int(expenses *  bonus)
     income = bonus + expenses 
     # output
     formattedIncome = "{:,}".format(income)
     print('Income: Cr',formattedIncome)
     print('Expected Expense:',expenses)
+    print('...crew salary:',salaryExpense)
     print('...mortage:', mortgageExpense) 
     print('...maintenance:', maintenanceExpense) 
     print('...fuel:', fuelExpense) 
     print('Revenue: ',bonus)
   else:
-    expenses = 0 
+    # crew salary
+    salaryExpense = 0
+    for crew in ship['crew']:
+      crewSalary = int(salaries[crew] / 28) * days 
+      salaryExpense += crewSalary
+    expenses = salaryExpense 
     bonus = int(diceRoll(4,6) * 1000)
     income = bonus + expenses 
     # output

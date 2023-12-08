@@ -3,3 +3,9 @@ hull : 400
 jump : 2
 thrust : 2 
 cost : 74824580
+crew : 
+  - "pilot"
+  - "astrogator"
+  - "engineer"
+  - "marine"
+  - "steward"
