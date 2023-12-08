@@ -16,16 +16,16 @@ ships = {
 locations = [
    "null", "null", # 0 and 1
    "Planet - Military", "Planet - Remote Location", "Planet - Rural", "Planet - City", "Starport",     # 2 to 6
-   "Starport", "Lunar - City", "Lunar - Outpost", "Asteroid - Base", "Capital Ship", "Lunar - Military"  # 7 to 12
+   "Starport", "Orbital Station", "Lunar - City", "Lunar - Outpost", "Capital Ship", "Lunar - Military"  # 7 to 12
   ]
 
 # 2d6 distances, homebrew 0 means same system
 parsecsAway = [ 'null', 'null', 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5 ]
 
-# from mgt2e core rules, pg 163
+# from mgt2e core rules, pg 163, solar is mine its less than mercury
 distances = {
-  "primary world" : 150000000, "close neighbor world" : 45000000, "far neighbor world" : 255000000, 
-  "close gas giant" : 600000000, "far gas giant" : 900000000
+  "solar" : 50000000, "primary world" : 150000000, "close neighbor world" : 45000000, 
+  "far neighbor world" : 255000000, "close gas giant" : 600000000, "far gas giant" : 900000000
   }
 
 # from mgt2e core rules
@@ -60,15 +60,15 @@ targets = [
   'Common Trade Goods','Common Trade Goods','Random Trade Goods','Random Trade Goods','Illegal Trade Goods','Illegal Trade Goods','Computer Data',
   'Alien Artefact','Personal Effects','Work of Art','Historical Artefact','Weapon','Starport','Asteroid Base','City','Research station','Bar or Nightclub',
   'Medical Facility','Roll on the Random Patron table','Roll on the Random Patron table','Roll on the Random Patron table',
-  'Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Local Government','Planetary',
-  'Government','Corporation','Imperial Intelligence','Criminal Syndicate','Criminal Gang','Free Trader','Yacht','Cargo Hauler','Police Cutter',
+  'Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Roll on the Allies and Enemies table','Local Government',
+  'Planetary Government','Corporation','Imperial Intelligence','Criminal Syndicate','Criminal Gang','Free Trader','Yacht','Cargo Hauler','Police Cutter',
   'Space Station','Warship'
   ]
 
 # from mgt2e core rules pg 94
 oppositions = [
   'Animals','Large animal','Bandits & thieves','Fearful peasants','Local authorities','Local lord','Criminals – thugs or corsairs',
-  'Criminals – thieves or saboteurs','Police – ordinary','security forces','Police – inspectors & detectives','Corporate – agents',
+  'Criminals – thieves or saboteurs','Police – ordinary security forces','Police – inspectors & detectives','Corporate – agents',
   'Corporate – legal','Starport security','Imperial marines','Interstellar','corporation','Alien – private citizen or corporation',
   'Alien – government ','Space travellers or rival ship','Target is in deep space','Target is in orbit','Hostile weather conditions',
   'Dangerous organisms or radiation','Target is in a dangerous region','Target is in a restricted area','Target is under electronic observation',
@@ -80,7 +80,7 @@ oppositions = [
 starportEncounters = [
   "Maintenance robot at work", "Trade ship arrives or departs", "Captain argues about fuel prices",
   "News report about pirate activity on a starport screen draws a crowd", "Bored clerk makes life difficult for the Travellers", 
-  "Local merchant with cargo to transport seeks a ship", "Dissident tries to claim sanctuary from planetaryauthorities",
+  "Local merchant with cargo to transport seeks a ship", "Dissident tries to claim sanctuary from planetary authorities",
   "Traders from offworld argue with local brokers", "Technician repairing starport computer system", "Reporter asks for news from offworld",
   "Bizarre cultural performance", "Patron argues with another group of Travellers", "Military vessel arrives or departs", "Demonstration outside starport",
   "Escaped prisoners begs for passage offworld", "Impromptu bazaar of bizarre items", "Security patrol", "Unusual alien", 
@@ -174,8 +174,10 @@ def main():
   opposition = sorted(oppositions)[oppositionRoll]
   parsecs = parsecsAway[diceRoll(2, 6)]
   location = locations[diceRoll(2,6)]
+
   # exceptions
   if mission == "Explore a new system" and parsecs == 0:
+    target = "New system"
     parsecs = parsecsAway[diceRoll(2, 6)]
   elif "It is a trap" in mission:
     missionRoll = int(diceRoll(1,len(missions)) - 1)
@@ -183,20 +185,41 @@ def main():
     mission = mission + "*"
   elif mission == "Salvage a ship":
     location == "near gas giant"
+  elif "Planetary" in target:
+    location = locations[diceRoll(1,4) + 2]
+  elif location == "Orbital Station":
+    distanceRoll = int(diceRoll(1,len(distances)) - 1)
+    orbiting = sorted(distances)[distanceRoll]
+    location = location + " - " + orbiting
   else:
     False
   jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
-  bonus = diceRoll(5, 6) * .01      # bonus percent on top, 5 to 30%
+  bonusDice = 4 + jumps
+  bonus = diceRoll(bonusDice, 6) * .01      # bonus percent on top, 5 to 30%
+
   # threat multiplier
+  threat = 0
   if 'Military' in location:
-    bonus = bonus * (diceRoll(1,4) + 1)
+    threat += 1
+  if ('angerous' or 'Hostile' or 'restricted' or 'protected' or 'Police') in opposition:
+    threat += 1
+  if 'Illegal' in target:
+    threat += 1
+  if ('dangerous' or 'Assassinate' or 'Steal' or 'Aid in burglary' or 'Sabotage' or 'Hijack') in mission:
+    threat += 1
+  if threat > 0:
+    print('dangerous details')
+    bonus = bonus * (diceRoll(1,4) + threat)
+
+  # output to screen
   print('\n### MISSION')
   print("Patron:", patron,"-",surname, forename)
   print("Mission:",mission)
+  print('Threat level:',threat)
   print("Target:",target)
   print("Opposition:",opposition)
   print('Location:', location)
-  print('Distance:',parsecs,'parsecs away')
+  print('Distance:',parsecs,'parsecs')
   print('Jumps:',jumps)
   operatingCosts(ship, parsecs, jumps, bonus)
 
