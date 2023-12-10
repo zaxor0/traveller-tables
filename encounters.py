@@ -209,6 +209,7 @@ def main():
   relevantPlanet = planets[diceRoll(2,6)]
   # planet and moon location
   if "Planet" in location:
+    relevantPlanet = random.choice(['primary world','close neighbor world','far neighbor world'])
     location = location + " - " + relevantPlanet
   if "Lunar" in location:
     location = relevantPlanet + "'s " + location
@@ -344,15 +345,13 @@ def operatingCosts(ship, parsecs, jumps, bonus, days):
     bonus = int(expenses *  bonus)
     income = bonus + expenses 
     # output
-    formattedIncome = "{:,}".format(income)
-    formattedBonus = "{:,}".format(bonus)
-    print('Income: Cr',formattedIncome)
-    print('Expected Expense:',expenses)
-    print('...crew salary:',salaryExpense)
-    print('...mortage:', mortgageExpense) 
-    print('...maintenance:', maintenanceExpense) 
-    print('...fuel:', fuelExpense) 
-    print('Revenue: Cr ',formattedBonus)
+    print('Income: Cr', str("{:,}".format(income)))
+    print('Expected Expense:', str("{:,}".format(expenses)))
+    print('...crew salary: Cr', str("{:,}".format(salaryExpense)))
+    print('...mortage: Cr', str("{:,}".format(mortgageExpense)))
+    print('...maintenance: Cr', str("{:,}".format(maintenanceExpense)))
+    print('...fuel: Cr', str("{:,}".format(fuelExpense)))
+    print('Revenue: Cr ',str("{:,}".format(bonus)))
   else:
     # crew salary
     salaryExpense = 0
@@ -363,10 +362,8 @@ def operatingCosts(ship, parsecs, jumps, bonus, days):
     bonus = int(diceRoll(4,6) * 1000)
     income = bonus + expenses 
     # output
-    formattedIncome = "{:,}".format(income)
-    formattedBonus = "{:,}".format(bonus)
-    print('Income: Cr',formattedIncome)
-    print('Expected Expense:',expenses)
-    print('Revenue: Cr',formattedBonus)
+    print('Income: Cr', str("{:,}".format(income)))
+    print('Expected Expense:', str("{:,}".format(expenses)))
+    print('Revenue: Cr ',str("{:,}".format(bonus)))
 
 main()
