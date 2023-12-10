@@ -236,18 +236,8 @@ def main():
   # modulate the distance from 80 to 120% of standard distance
   distance = int(standardDistance * (.8 + (random.randint(0,40) / 100)))
   acceleration = ship['thrust'] * 10
-  systemTravelSeconds = int(2 * math.sqrt((distance *1000) / acceleration))
-  systemTravelDays = int(systemTravelSeconds / 86400)
-  systemTravelTime = str(datetime.timedelta(seconds=systemTravelSeconds))
-  distance = "{:,}".format(distance)
 
-  days = diceRoll(3,4) # additional days to complete on top of jumps
-  if (days - systemTravelDays) == 1:
-    print('...adding 1 to days:',days)
-    days += 1 # always have at least 48 for a mission
-  if (days - systemTravelDays) == 0:
-    print('...adding 2 to days:',days)
-    days += 2 # always have at least 48 for a mission
+  days = diceRoll(2,4) # additional days to complete on top of jumps
   earlyBonus = int(diceRoll(1,6) * 1000) # bonus for each day completed early
 
   # exceptions
@@ -268,17 +258,24 @@ def main():
     location = location + " - " + orbiting
   else:
     False
+
   jumps = 2 * int((parsecs / ship['jump']) + (parsecs % ship['jump'] > 0))
   bonusDice = 4 + jumps
   bonus = diceRoll(bonusDice, 6) * .01      
-  # return travel for same sytem would be same as the in system time 
+
+  # if travelling in the same system, calculate time in "thrust" between planets 
   if parsecs == 0:
-    returnTravel = int((2 * systemTravelSeconds) / 86400)
-  # otherwise we can assume 2 days, from star to primary planet at thrust of 2g
+    thrustSeconds = int(2 * math.sqrt((distance * 1000) / acceleration))
+    thrustHours = int(thrustSeconds / 3600)
+    thrustDays = int(thrustHours / 24)
+    thrustHoursRemainder = int(thrustHours % 24)
+    thrustDaysFormatted = str(datetime.timedelta(seconds=thrustSeconds))
+    thrustRTT = int((2 * thrustSeconds) / 86400)
+    travelTime = thrustRTT
+    daysToComplete = days + thrustRTT
   else:
-    returnTravel = 2
-  totalDays = int((jumps * 7) + days + returnTravel)
-  travelTime = int((jumps * 7) + systemTravelDays + returnTravel)
+    travelTime = int((jumps * 7))
+    daysToComplete = int((jumps * 7) + days)
 
   # threat multiplier
   threat = 0
@@ -293,6 +290,7 @@ def main():
   if threat > 0:
     bonus = bonus * (diceRoll(1,4) + threat)
 
+  distance = "{:,}".format(distance)
   # output to screen
   print('### MISSION')
   print("Patron:", patron,"-",surname, forename)
@@ -304,16 +302,17 @@ def main():
   print('\n### TRAVEL')
   if jumps > 0:
     print('Distance:',parsecs,'parsecs')
-    print('Distance in system:',distance,'km')
-    print('Time in thrust:',systemTravelTime,'at thrust',ship['thrust'])
     print('Total Jumps:',jumps,"(round trip)")
-    print("Days to complete:", totalDays)
+    print("Days to complete:", daysToComplete)
     print("Days in travel:",travelTime) 
   else:
+    print('Total Jumps: 0')
     print('Distance in system:',distance,'km')
-    print("Days to complete:", totalDays)
+#    print('Time in thrust:',thrustDaysFormatted,'at thrust',ship['thrust'])
+    print('Time in thrust:',thrustDays,'Days',thrustHoursRemainder,'Hours at thrust',ship['thrust'])
+    print("Days to complete:", daysToComplete)
     print("Days in travel:",travelTime) 
-  operatingCosts(ship, parsecs, jumps, bonus, totalDays)
+  operatingCosts(ship, parsecs, jumps, bonus, daysToComplete)
 
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
