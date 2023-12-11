@@ -139,9 +139,9 @@ def main():
   distance = "{:,}".format(distance)
   # output to screen
   print('### MISSION')
-  worldPosterLink = str('[Source World: '+ world +'](' + worldPoster(world) + ')')
+  worldPosterLink = str('Source World: ['+ world +'](' + worldPoster(world) + ')')
   jumpMapLink = str('[Jump Map](' + jumpMap(world) + ')')
-  print(worldPosterLink, jumpMapLink)
+  print(worldPosterLink,'  -  ', jumpMapLink)
   print("Patron:", patron,"-",surname, forename)
   print("Mission:",mission)
   print('Threat level:',threat)
