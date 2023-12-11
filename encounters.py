@@ -6,19 +6,21 @@ import random
 import sys
 import yaml
 
+## mgt2e refers to mongoose traveller second edition 2022 update
+## SWN refers to Stars Without Number free edition, which contains tons of useful tables
 
 shipFile = sys.argv[1]
  
-# sample for mgt 2e core rules
+# sample for mgt2e core rules
 ships = {
   'lab ship' : { 'type':'lab ship', 'hull' : 400, 'jump' : 2, 'cost' : 136374300 }
   }
 
 # 2d6 home brew
 locations = [
-   "null", "null", # 0 and 1
+   "null", "null", # 0 and 1 which are unused on a 2d6 table
    "Planet - Military", "Planet - Remote Location", "Planet - Rural", "Planet - City", "Starport",     # 2 to 6
-   "Starport", "Lunar - City", "Lunar - Outpost", "System POI", "Capital Ship", "Lunar - Military"  # 7 to 12
+   "Starport", "Lunar - City", "Lunar - Outpost", "System POI", "Capital Ship", "Lunar - Military"     # 7 to 12
   ]
 
 # system points of interest, per SWN page 170
@@ -39,9 +41,13 @@ systemPOI = {
 }
 
 # 2d6 distances, homebrew, 0 means same system
-parsecsAway = [ 'null', 'null', 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5 ]
+parsecsAway = [ 'null', 'null', # 0 and 1 
+  5, 4, 3, 2,   # 2 to 5 
+  0, 1, 0,      # 6 to 8
+  2, 3, 4, 5    # 9 to 12
+  ]
 
-# from mgt2e core rules, pg 163, solar is mine its less than mercury
+# from mgt2e core rules, pg 163, solar is homebrew but it is less than mercury's distance from the sun
 distances = {
   "solar" : 50000000, "primary world" : 150000000, "close neighbor world" : 45000000, 
   "far neighbor world" : 255000000, "close gas giant" : 600000000, "far gas giant" : 900000000
@@ -50,7 +56,7 @@ distances = {
 # 2d6 planets, homebrew, primary planet most likely
 planets = [ "null", "null", 
   "far gas giant", "close gas giant", "far neighbor world", "close neighbor world", # 2 to 5 
-  "primary world","primary world","primary world",                                   # 6 to 8
+  "primary world","primary world","primary world",                                  # 6 to 8
   "close neighbor world","far neighbor world","close gas giant", "far gas giant"    # 9 to 12
   ]
 
@@ -220,9 +226,9 @@ def main():
   if location == "Capital Ship":
     location = location + " orbiting " + relevantPlanet
   if location == "System POI":
+    location = sorted(systemPOI)[diceRoll(1,8) - 1] 
     if "Gas gaint" in location:
       relevantPlanet = random.choice(["close gas gaint","far gas giant"])
-    location = sorted(systemPOI)[diceRoll(1,8) - 1] 
     location = location + " (SWN pg. 171)"
 
   # if same system calc distance from primary world
@@ -309,7 +315,6 @@ def main():
   else:
     print('Total Jumps: 0')
     print('Distance in system:',distance,'km')
-#    print('Time in thrust:',thrustDaysFormatted,'at thrust',ship['thrust'])
     print('Time in thrust:',thrustDays,'Days',thrustHoursRemainder,'Hours at thrust',ship['thrust'])
     print("Days to complete:", daysToComplete)
     print("Days in travel:",travelTime) 
