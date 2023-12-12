@@ -73,9 +73,18 @@ def nearbyPlanets(world, jump):
   return planetsArray, nearbyWorlds
 
 def worldPoster(world):
-  sectorName = str(world['SectorName']) 
+  try: # data format provided by the world detailed results (called credits in the api)
+    sectorName = str(world['SectorName']) 
+    worldHex = str(world['WorldHex']) 
+  except:
+    pass
+  try:  # data format provided by the jump search results
+    sectorName = str(world['Sector'])
+    worldHex = str(world['Hex'])
+  except:
+    pass
   sectorName = sectorName.replace(' ','%20')
-  url = 'https://travellermap.com/print/world?sector=' + sectorName + '&hex=' + str(world['WorldHex']) + '&style=poster'
+  url = 'https://travellermap.com/print/world?sector=' + sectorName + '&hex=' + worldHex + '&style=poster'
   return url
 
 def jumpMap(world):
