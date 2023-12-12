@@ -19,9 +19,13 @@ starportQuality = {
  'X' : { 'Quality' : 'No Starport', 'Berthing Cost' : '0', 'Fuel': 'Unrefined', 'Facilities' : 'None', 'Bases' : 'Corsair 10+' }
  }
 
-def worldSearch(world):
-  print('searching for', world)
-  searchUrl = "https://travellermap.com/api/search?q=exact:" + world
+def worldSearch(world, sectorName=False):
+  if sectorName:
+    sectorName = sectorName.replace(' ','%20')
+    query = str(world + "%20in:" + sectorName)
+    searchUrl = 'https://travellermap.com/api/search?q="' + query
+  else:
+    searchUrl = 'https://travellermap.com/api/search?q=exact:' + world 
   response = requests.get(searchUrl)
   data = json.loads(response.text)
   results = []
@@ -29,25 +33,25 @@ def worldSearch(world):
     try:
       results.append(result['World'])
     except:
-      print('...')
+      pass
   if len(results) > 1:
     selected = False
     while selected == False:
-      print('Which sector are you in?')
       position = 0
+      print('Possible Sectors:')
       for world in results:
-        print(str(position + 1),'-',world['Sector'])
+        print(' ',str(position + 1),'-',world['Sector'])
         position += 1
-      selection = int(input('# ')) - 1
+      selection = int(input('Which sector are you in? ')) - 1
       try:
         world = results[selection]
         selected = True
       except:
         print('not a valid number')
+    print('')
     return world
   else:
     return results[0]
-
 
 def worldDetailed(world): 
   sectorX = world['SectorX'] 
@@ -88,7 +92,31 @@ def worldPoster(world):
   return url
 
 def jumpMap(world):
-  sectorName = str(world['SectorName']) 
+  try: # data format provided by the world detailed results (called credits in the api)
+    sectorName = str(world['SectorName']) 
+    worldHex = str(world['WorldHex']) 
+  except:
+    pass
+  try:  # data format provided by the jump search results
+    sectorName = str(world['Sector'])
+    worldHex = str(world['Hex'])
+  except:
+    pass
   sectorName = sectorName.replace(' ','%20')
   url = 'https://travellermap.com/api/jumpmap?sector=' + sectorName + '&hex=' + str(world['WorldHex']) + '&style=poster&options=33008&jump=6'
+  return url
+
+def travellerMap(world):
+  try: # data format provided by the world detailed results (called credits in the api)
+    sectorName = str(world['SectorName']) 
+    worldHex = str(world['WorldHex']) 
+  except:
+    pass
+  try:  # data format provided by the jump search results
+    sectorName = str(world['Sector'])
+    worldHex = str(world['Hex'])
+  except:
+    pass
+  sectorName = sectorName.replace(' ','%20')
+  url = 'https://travellermap.com/go/' + sectorName + '/' + worldHex 
   return url

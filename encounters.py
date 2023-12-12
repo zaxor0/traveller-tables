@@ -5,6 +5,7 @@ from possibleWorlds import *
 
 import datetime
 import math
+import os
 import random
 import sys
 import yaml
@@ -14,14 +15,51 @@ import yaml
 
 shipFile = sys.argv[1]
 worldName = sys.argv[2]
- 
+sectorName = False
+try:
+  sectorName = str(sys.argv[3])
+except:
+  pass
+missionCount = 5
+try:
+  missionCount = str(sys.argv[4])
+except:
+  pass
+  
+clear = lambda: os.system('clear')
+yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
+
+class Mission:
+  def __init__(self, patron, mission, threat, target, opposition, location ,jumps, targetSystem,
+               parsecs, daysToComplete, travelTime, distance, thrustDays, thrustHoursRemainder, bonus):
+    self.patron = patron
+    self.mission = mission
+    self.threat = threat
+    self.target = target
+    self.opposition = opposition
+    self.location = location
+    self.jumps = jumps
+    self.targetSystem = targetSystem
+    self.parsecs = parsecs
+    self.daysToComplete = daysToComplete
+    self.travelTime = travelTime
+    self.distance = distance
+    self.thrustDays = thrustDays
+    self.thrustHoursRemainder = thrustHoursRemainder
+    self.bonus = bonus
+
 def main(): 
+  clear()
   # your ship details
   with open(shipFile, 'r') as file:
     ship = yaml.safe_load(file)
-  world = worldSearch(worldName)
+  if sectorName:
+    world = worldSearch(worldName, sectorName)
+  else:
+    world = worldSearch(worldName)
   world = worldDetailed(world)
-  for i in range(1,2):
+  missionArray = []
+  for i in range(0,missionCount):
     patron = rollPatron()
     mission, target, opposition, parsecs, targetSystem = rollMission(world)
     location, relevantPlanet = rollLocation()
@@ -51,10 +89,45 @@ def main():
       location = location + " - " + orbiting
     else:
       False
+   
+    # create mission object
+    missionObject = Mission(patron, mission, threat, target, opposition, location ,jumps, targetSystem,
+                            parsecs, daysToComplete, travelTime, distance, thrustDays, thrustHoursRemainder, bonus)
+
+    # add it to the list of possible missions
+    missionArray.append(missionObject)
+    
+  selected = False
+  while selected == False:
+    position = 0
+    print('Available Missions:')
+    for mission in missionArray:
+      position += 1
+      targetWorld = str(world['WorldName'])
+      if mission.jumps > 0:
+        targetWorld = str(mission.targetSystem['Name'] + ' (' + str(mission.parsecs) + ' parsecs)')
+      income, expense, revenue = incomeRevenue(ship, mission.parsecs, mission.jumps, mission.bonus, mission.daysToComplete)
+      print(
+        str(position),'|',mission.patron,'|',mission.mission, '| target', mission.target,'| system',targetWorld,
+        '\n     > return Cr',str("{:,}".format(income)),' / revenue Cr',str("{:,}".format(revenue)), '  ||   Due in',str(mission.daysToComplete),'days\n')
+    selection = int(input('Which mission will you select? ')) - 1
+    try:
+      selectedMission = missionArray[selection]
+      printDetails(missionArray[selection], world, ship)
+      chosen = str(input('\nDo you accept this mission?'))
+      if chosen in yesses:
+        selected = True
+      else:
+        clear()
+    except:
+      print('not a valid number')
+  print('')
+ 
   
-    printMission(distance, world, patron, mission, threat, target, opposition, location)
-    printTravel(jumps, targetSystem, parsecs, daysToComplete, travelTime, distance, thrustDays, thrustHoursRemainder, ship)
-    operatingCosts(ship, parsecs, jumps, bonus, daysToComplete)
+def printDetails(missionObject, world, ship):
+  printMission(missionObject.distance, world, missionObject.patron, missionObject.mission, missionObject.threat, missionObject.target, missionObject.opposition, missionObject.location)
+  printTravel(missionObject.jumps, missionObject.targetSystem, missionObject.parsecs, missionObject.daysToComplete, missionObject.travelTime, missionObject.distance, missionObject.thrustDays, missionObject.thrustHoursRemainder, ship)
+  operatingCosts(ship, missionObject.parsecs, missionObject.jumps, missionObject.bonus, missionObject.daysToComplete)
 
 def rollPatron():
   # patron 
@@ -68,7 +141,7 @@ def rollPatron():
   forename = sorted(forelist)[forenameRoll]
   surnameRoll = int(diceRoll(1,len(surnames)) - 1)
   surname = sorted(surnames)[surnameRoll]
-  patron = str(patron + " - " + surname + " " + forename)
+  patron = str(patron + ' - ' + forename + ' ' + surname)
   return patron
 
 def rollMission(world):
@@ -77,6 +150,10 @@ def rollMission(world):
   mission = sorted(missions)[missionRoll]
   targetRoll = int(diceRoll(1,len(targets)) - 1)
   target = sorted(targets)[targetRoll]
+  if target == 'Roll on the Random Patron table':
+    target = patrons[int(diceRoll(1,len(patrons)) - 1)]
+  if target == 'Roll on the Allies and Enemies table':
+    target = alliesEnemies[int(diceRoll(1,len(alliesEnemies)) - 1)]
   oppositionRoll = int(diceRoll(1,len(oppositions)) - 1)
   opposition = sorted(oppositions)[oppositionRoll]
   parsecs = parsecsAway[diceRoll(2, 6)]
@@ -161,12 +238,47 @@ def threatMultiplier(location, opposition, target, mission, bonus):
     bonus = bonus * (diceRoll(1,4) + threat)
   return bonus, threat
 
+def incomeRevenue(ship, parsecs, jumps, bonus, days):
+  if parsecs > 0:
+    mortgage = ship['cost'] / 240   
+    weeklyMaintenance = (ship['cost'] * .001) / 48   
+    # fuel is 10% of hull per parsec
+    fuelUsage = (ship['hull'] * .1 ) * (parsecs * 2)
+    fuelExpense = int(fuelUsage * 500)
+    # each jump takes 1 week
+    mortgageExpense = int(mortgage / 4 * jumps)
+    maintenanceExpense = int(weeklyMaintenance * jumps)
+    # crew salary
+    salaryExpense = 0
+    for crew in ship['crew']:
+      crewSalary = int(salaries[crew] / 4) * jumps
+      salaryExpense += crewSalary
+    # total
+    expenses = mortgageExpense + maintenanceExpense + fuelExpense + salaryExpense
+    bonus = int(expenses *  bonus)
+    income = bonus + expenses 
+  else:
+    # crew salary
+    salaryExpense = 0
+    for crew in ship['crew']:
+      crewSalary = int(salaries[crew] / 28) * days 
+      salaryExpense += crewSalary
+    expenses = salaryExpense 
+    bonus = int(diceRoll(4,6) * 1000)
+    income = bonus + expenses 
+
+  return income, expenses, bonus
+
+
+
 def printMission(distance, world, patron, mission, threat, target, opposition, location):
   distance = "{:,}".format(distance)
   # output to screen
   print('### MISSION')
+  travellerMapLink = str('[Traveller Map](' + travellerMap(world) + ')')
   worldPosterLink = str('Source World: ['+ world['WorldName'] +'](' + worldPoster(world) + ')')
   jumpMapLink = str('[Jump Map](' + jumpMap(world) + ')')
+  print(travellerMapLink)
   print(worldPosterLink,'  -  ', jumpMapLink)
   print("Patron:", patron)
   print("Mission:",mission)
