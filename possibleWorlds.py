@@ -3,6 +3,7 @@
 import json
 import requests
 import sys
+import time
 
 # mgt2e pg 257
 starportQuality = {
@@ -19,19 +20,34 @@ starportQuality = {
  }
 
 def worldSearch(world):
+  print('searching for', world)
   searchUrl = "https://travellermap.com/api/search?q=exact:" + world
   response = requests.get(searchUrl)
   data = json.loads(response.text)
-  worldFound = False
+  results = []
   for result in data['Results']['Items']:
     try:
-      worldFound = result['World']
+      results.append(result['World'])
     except:
-      False
-  if worldFound:
-    return worldFound
+      print('...')
+  if len(results) > 1:
+    selected = False
+    while selected == False:
+      print('Which sector are you in?')
+      position = 0
+      for world in results:
+        print(str(position + 1),'-',world['Sector'])
+        position += 1
+      selection = int(input('# ')) - 1
+      try:
+        world = results[selection]
+        selected = True
+      except:
+        print('not a valid number')
+    return world
   else:
-    return 0
+    return results[0]
+
 
 def worldDetailed(world): 
   sectorX = world['SectorX'] 
@@ -42,7 +58,6 @@ def worldDetailed(world):
   response = requests.get(worldDetailedURL)
   return json.loads(response.text)
 
-
 def jumpSearch(world, jump):
   jumpRange = jump
   jumpUrl = 'https://travellermap.com/api/jumpworlds?sector=' + str(world['SectorName']) + '&hex=' + str(world['WorldHex']) + '&jump=' + str(jumpRange)
@@ -50,33 +65,21 @@ def jumpSearch(world, jump):
   return json.loads(response.text)
 
 def nearbyPlanets(world, jump):
-  travellerWorld = worldSearch(world)
-  if travellerWorld:
-    fullWorld = worldDetailed(travellerWorld)
-    #print(fullWorld['WorldName'],'located in sector',fullWorld['SectorName'],'in hex', fullWorld['WorldHex'])
-    nearbyWorlds = jumpSearch(fullWorld, jump)
-    planetsArray = []
-    for planet in nearbyWorlds['Worlds']:
-      if planet['Name'] != world:
-        planetsArray.append(planet['Name'])
-    return planetsArray, nearbyWorlds
+  nearbyWorlds = jumpSearch(world, jump)
+  planetsArray = []
+  for planet in nearbyWorlds['Worlds']:
+    if planet['Name'] != world:
+      planetsArray.append(planet['Name'])
+  return planetsArray, nearbyWorlds
 
 def worldPoster(world):
-  world = worldSearch(world)
-  if world:
-    world = worldDetailed(world)
-    url = 'https://travellermap.com/print/world?sector=' + str(world['SectorName']) + '&hex=' + str(world['WorldHex']) + '&style=poster'
-    return url
-  else:
-    return 0
+  sectorName = str(world['SectorName']) 
+  sectorName = sectorName.replace(' ','%20')
+  url = 'https://travellermap.com/print/world?sector=' + sectorName + '&hex=' + str(world['WorldHex']) + '&style=poster'
+  return url
 
 def jumpMap(world):
-  world = worldSearch(world)
-  if world:
-    world = worldDetailed(world)
-    url = 'https://travellermap.com/api/jumpmap?sector=' + str(world['SectorName']) + '&hex=' + str(world['WorldHex']) + '&style=poster&options=33008&jump=6'
-    return url
-  else:
-    return 0
-
-
+  sectorName = str(world['SectorName']) 
+  sectorName = sectorName.replace(' ','%20')
+  url = 'https://travellermap.com/api/jumpmap?sector=' + sectorName + '&hex=' + str(world['WorldHex']) + '&style=poster&options=33008&jump=6'
+  return url
