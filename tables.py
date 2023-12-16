@@ -1,9 +1,48 @@
 #!/usr/sbin/python3
 
+# all tables in this file
+tableList= [,
+  'ships',
+  'starportQuality',
+  'locations',
+  'systemPOI',
+  'parsecsAway',
+  'distances',
+  'planets',
+  'alliesEnemies',
+  'characterQuirks',
+  'patrons',
+  'missions',
+  'targets',
+  'oppositions',
+  'starportEncounters',
+  'urbanEncounters',
+  'salaries',
+  'femNames',
+  'mascNames',
+  'surnames'
+  ]
+
+
 # sample for mgt2e core rules
 ships = {
   'lab ship' : { 'type':'lab ship', 'hull' : 400, 'jump' : 2, 'cost' : 136374300 }
   }
+
+# from mgt2e core rules pg 257
+starportQuality = {
+ 'A' : { 'Quality' : 'Excellent', 'Berthing Cost' : '1D x Cr1000', 'Fuel' : 'Refined',
+         'Facilities' : 'Shipyard (all), Repair, Highport 6+', 'Bases' : 'Military  8+, Naval 8+, Scout 10+' },
+ 'B' : { 'Quality' : 'Good', 'Berthing Cost' : '1D x Cr500' , 'Fuel' : 'Refined',
+         'Facilities' : 'Shipyard (spacecraft), Repair, Highport 8+', 'Bases' : 'Military 8+, Naval 8+, Scout 9+' },
+ 'C' : { 'Quality' : 'Routine', 'Berthing Cost' : '1D x Cr100', 'Fuel' : 'Unrefined',
+         'Facilities' : 'Shipyard (small craft), Repair, Highport 10+', 'Bases' : 'Military 10+ Scout 9+' },
+ 'D' : { 'Quality' : 'Poor', 'Berthing Cost' : '1D x Cr 10',  'Fuel' : 'Unrefined',
+         'Facilities' : 'Limited Repair, Highport 12+', 'Bases' : 'Scout 8+, Corsair 12+' },
+ 'E' : { 'Quality' : 'Frontier', 'Berthing Cost' : '0', 'Fuel': 'Unrefined', 'Facilities' : 'None', 'Bases' : 'Corsair 10+' },
+ 'X' : { 'Quality' : 'No Starport', 'Berthing Cost' : '0', 'Fuel': 'Unrefined', 'Facilities' : 'None', 'Bases' : 'Corsair 10+' }
+ }
+
 
 # 2d6 home brew
 locations = [
@@ -50,14 +89,24 @@ planets = [ "null", "null",
   ]
 
 
-# from mgt2e core rules
+# from mgt2e core rules 92
 alliesEnemies = [ 
- "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief"
- "Free Trader", "Explorer", "Marine Captain", "Corporate", "Executive", "Researcher", "Cultural Attaché ", "Religious Leader ", "Conspirator",
- "Rich Noble", "Artificial", "Intelligence", "Bored Noble", "Planetary Governor", "Inveterate Gambler", "Crusading Journalist", "Doomsday Cultist",
- "Corporate Agent", "Criminal Syndicate", "Military Governor", "Army Quartermaster", "Private Investigator", "Starport Administrator", "Retired Admiral",
- "Alien Ambassador", "Smuggler", "Weapons Inspector", "Elder Statesman", "Planetary Warlord", "Imperial Agent"
- ]
+   "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief"
+   "Free Trader", "Explorer", "Marine Captain", "Corporate", "Executive", "Researcher", "Cultural Attaché ", "Religious Leader ", "Conspirator",
+   "Rich Noble", "Artificial", "Intelligence", "Bored Noble", "Planetary Governor", "Inveterate Gambler", "Crusading Journalist", "Doomsday Cultist",
+   "Corporate Agent", "Criminal Syndicate", "Military Governor", "Army Quartermaster", "Private Investigator", "Starport Administrator", "Retired Admiral",
+   "Alien Ambassador", "Smuggler", "Weapons Inspector", "Elder Statesman", "Planetary Warlord", "Imperial Agent"
+  ]
+
+characterQuirks = [
+  'Loyal', 'Distracted by other worries','In debt to criminals','Makes very bad jokes','Will betray characters','Aggressive','Has secret allies',
+  'Secret anagathic user','Looking for something','Helpful','Forgetful','Wants to hire the Travellers','Has useful contacts','Artistic','Easily confused'
+  'Unusually ugly','Worried about current situation','Shows pictures of their children','Rumour-monger','Unusually provincial','Drunkard or drug addict',
+  'Government informant','Mistakes a Traveller for someone else','Possesses unusually advanced technology','Unusually handsome or beautiful',
+  'Spying on the Travellers','Possesses TAS membership','Is secretly hostile towards the Travellers','Wants to borrow money',
+  'Is convinced the Travellers are dangerous','Involved in political intrigue','Has a dangerous secret','Wants to get off planet as soon as possible',
+  'Attracted to a Traveller','From offworld','Possesses telepathy or other unusual quality'
+  ]
 
 # from mgt2e core rules pg 93
 patrons = [
@@ -65,7 +114,7 @@ patrons = [
   "Diplomat","Courier","Spy","Ambassador","Noble","Police Officer","Merchant","Free Trader","Broker","Corporate Executive","Corporate Agent","Financier",
   "Belter","Researcher","Naval Officer","Pilot","Starport Administrator","Scout","Alien","Playboy","Stowaway","Family Relative","Agent of a Foreign Power",
   "Imperial Agent"
-]
+  ]
 
 # from mgt2e core rules pg 93
 missions = [
@@ -172,3 +221,26 @@ surnames = [
   "Wescott","Wethern","Wheson","Winslett","Wyrick","Yueh","Zahra","Zavaleta","Zemke"
   ]
 
+### Appearances
+
+# grabbed from various wikipedia articles
+hairColors = [
+  # black colors
+ 'black','jey black','soft black','raven black',
+  # brown colors
+  'brunette','dark brown','brown','light brown','walnut brown','dark chesnut brown','chesnut brown','light chesnut brown','caramel brown',
+  'light golden brown','mousy brown','light ash brown','maple brown',
+  # red colors
+  'reddish brown','deep burgundy','burgundy','auburn','red','red orange','orange red','bright copper','copper','burnt orange','ginger','strawberry blond',
+  'ruby red',
+  # blond colors
+  'light blond', 'golden blond','blond','fair','yellowish blond','golden brownish','light chesnut','ash blond','flaxen blond','dirty blond',
+  'dishwater blond','honey blond','platinum blond','sandy blond','venetian blond','reddish blond','bleached blond',
+  # grey and white colors
+  'dark grey','grey','silver','white'
+ ]
+
+# didnt find any good descriptions, these are off the top of my head
+greyedHair = [
+ 'salt and peppered grey','streaks of grey','grey highlights','greyed roots','grey low lights'
+ ]

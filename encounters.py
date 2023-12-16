@@ -97,6 +97,7 @@ def main():
     # add it to the list of possible missions
     missionArray.append(missionObject)
     
+  clear()
   selected = False
   while selected == False:
     position = 0
@@ -108,13 +109,13 @@ def main():
         targetWorld = str(mission.targetSystem['Name'] + ' (' + str(mission.parsecs) + ' parsecs)')
       income, expense, revenue = incomeRevenue(ship, mission.parsecs, mission.jumps, mission.bonus, mission.daysToComplete)
       print(
-        str(position),'|',mission.patron,'|',mission.mission, '| target', mission.target,'| system',targetWorld,
+        str(position),'|',mission.mission, '| target', mission.target,'| system',targetWorld,
         '\n     > return Cr',str("{:,}".format(income)),' / revenue Cr',str("{:,}".format(revenue)), '  ||   Due in',str(mission.daysToComplete),'days\n')
     selection = int(input('Which mission will you select? ')) - 1
     try:
       selectedMission = missionArray[selection]
       printDetails(missionArray[selection], world, ship)
-      chosen = str(input('\nDo you accept this mission?'))
+      chosen = str(input('\nDo you accept this mission? '))
       if chosen in yesses:
         selected = True
       else:
@@ -125,6 +126,7 @@ def main():
  
   
 def printDetails(missionObject, world, ship):
+  clear()
   printMission(missionObject.distance, world, missionObject.patron, missionObject.mission, missionObject.threat, missionObject.target, missionObject.opposition, missionObject.location)
   printTravel(missionObject.jumps, missionObject.targetSystem, missionObject.parsecs, missionObject.daysToComplete, missionObject.travelTime, missionObject.distance, missionObject.thrustDays, missionObject.thrustHoursRemainder, ship)
   operatingCosts(ship, missionObject.parsecs, missionObject.jumps, missionObject.bonus, missionObject.daysToComplete)

@@ -1,8 +1,8 @@
 type: "lab ship"
-hull : 400
+hull : 360
 jump : 2
 thrust : 2 
-cost : 74824580
+cost : 58871600 
 crew : 
   - "pilot"
   - "astrogator"
