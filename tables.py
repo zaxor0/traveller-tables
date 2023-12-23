@@ -224,7 +224,7 @@ surnames = [
 ### Appearances
 
 # grabbed from various wikipedia articles
-hairColors = [
+naturalHairColors = [
   # black colors
  'black','jey black','soft black','raven black',
   # brown colors
@@ -240,7 +240,15 @@ hairColors = [
   'dark grey','grey','silver','white'
  ]
 
+# off the top of my head, adding neon to some to distinguish from natural variants
+unnaturalHairColors = [
+ 'green','blue','purple','pink','neon orange','neon yellow','violet'
+ ]
+
 # didnt find any good descriptions, these are off the top of my head
 greyedHair = [
  'salt and peppered grey','streaks of grey','grey highlights','greyed roots','grey low lights'
  ]
+
+# masc body shapes
+
