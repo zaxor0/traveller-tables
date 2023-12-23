@@ -69,7 +69,7 @@ def main():
     travelTime, daysToComplete, thrustDays, thrustHoursRemainder = thrustCalculation(ship, parsecs, distance, jumps, days)
     bonusDice = 4 + jumps
     bonus = diceRoll(bonusDice, 6) * .01 
-    bonus, threat = threatMultiplier(location, opposition, target, mission, bonus)
+    bonus, threat = threatMultiplier(location, opposition, target, mission, bonus, targetSystem)
 
     # exceptions
     if mission == "Explore a new system" and parsecs == 0:
@@ -97,7 +97,7 @@ def main():
     # add it to the list of possible missions
     missionArray.append(missionObject)
     
-  clear()
+#  clear()
   selected = False
   while selected == False:
     position = 0
@@ -106,27 +106,40 @@ def main():
       position += 1
       targetWorld = str(world['WorldName'])
       if mission.jumps > 0:
-        targetWorld = str(mission.targetSystem['Name'] + ' (' + str(mission.parsecs) + ' parsecs)')
+        print('zone...',mission.targetSystem['Zone'])
+        if mission.targetSystem['Zone'] == 'A':
+          #zone = str('- ' + mission.targetSystem['Zone'])
+          zone = 'Amber Zone, '
+        elif mission.targetSystem['Zone'] == 'R':
+          zone = 'Restricted Zone, '
+        else:
+          zone = ''
+        targetWorld = str(mission.targetSystem['Name'] + ' (' + zone + str(mission.parsecs) + ' parsecs)')
       income, expense, revenue = incomeRevenue(ship, mission.parsecs, mission.jumps, mission.bonus, mission.daysToComplete)
       print(
         str(position),'|',mission.mission, '| target', mission.target,'| system',targetWorld,
         '\n     > return Cr',str("{:,}".format(income)),' / revenue Cr',str("{:,}".format(revenue)), '  ||   Due in',str(mission.daysToComplete),'days\n')
-    selection = int(input('Which mission will you select? ')) - 1
-    try:
-      selectedMission = missionArray[selection]
-      printDetails(missionArray[selection], world, ship)
-      chosen = str(input('\nDo you accept this mission? '))
-      if chosen in yesses:
-        selected = True
-      else:
-        clear()
-    except:
-      print('not a valid number')
+    selection = input('Which mission will you select? ')
+    if selection == 'all':
+      for job in missionArray:
+        printDetails(job, world, ship)
+    else:
+      clear()
+      selection = int(selection) - 1
+      try:
+        selectedMission = missionArray[selection]
+        printDetails(missionArray[selection], world, ship)
+        chosen = str(input('\nDo you accept this mission? '))
+        if chosen in yesses:
+          selected = True
+        else:
+          clear()
+      except:
+        print('not a valid number')
   print('')
  
   
 def printDetails(missionObject, world, ship):
-  clear()
   printMission(missionObject.distance, world, missionObject.patron, missionObject.mission, missionObject.threat, missionObject.target, missionObject.opposition, missionObject.location)
   printTravel(missionObject.jumps, missionObject.targetSystem, missionObject.parsecs, missionObject.daysToComplete, missionObject.travelTime, missionObject.distance, missionObject.thrustDays, missionObject.thrustHoursRemainder, ship)
   operatingCosts(ship, missionObject.parsecs, missionObject.jumps, missionObject.bonus, missionObject.daysToComplete)
@@ -226,7 +239,8 @@ def thrustCalculation(ship, parsecs, distance, jumps, days):
     daysToComplete = int((jumps * 7) + days)
   return travelTime, daysToComplete, thrustDays, thrustHoursRemainder
 
-def threatMultiplier(location, opposition, target, mission, bonus):
+def threatMultiplier(location, opposition, target, mission, bonus, targetSystem):
+  print(targetSystem)
   threat = 0
   if 'Military' in location:
     threat += 1
@@ -236,6 +250,13 @@ def threatMultiplier(location, opposition, target, mission, bonus):
     threat += 1
   if ('dangerous' or 'Assassinate' or 'Steal' or 'Aid in burglary' or 'Sabotage' or 'Hijack') in mission:
     threat += 1
+  try:
+    if targetSystem['Zone'] == 'R':
+      threat += 3
+    if targetSystem['Zone'] == 'A':
+      threat += 1
+  except:
+    pass
   if threat > 0:
     bonus = bonus * (diceRoll(1,4) + threat)
   return bonus, threat

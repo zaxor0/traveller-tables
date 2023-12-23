@@ -1,7 +1,7 @@
 #!/usr/sbin/python3
 
 # all tables in this file
-tableList= [,
+tableList= [
   'ships',
   'starportQuality',
   'locations',
