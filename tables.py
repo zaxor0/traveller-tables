@@ -237,7 +237,7 @@ naturalHairColors = [
   'light blond', 'golden blond','blond','fair','yellowish blond','golden brownish','light chesnut','ash blond','flaxen blond','dirty blond',
   'dishwater blond','honey blond','platinum blond','sandy blond','venetian blond','reddish blond','bleached blond',
   # grey and white colors
-  'dark grey','grey','silver','white'
+  'dark gray','gray','silver','white'
  ]
 
 # off the top of my head, adding neon to some to distinguish from natural variants
@@ -246,8 +246,8 @@ unnaturalHairColors = [
  ]
 
 # didnt find any good descriptions, these are off the top of my head
-greyedHair = [
- 'salt and peppered grey','streaks of grey','grey highlights','greyed roots','grey low lights'
+grayedHair = [
+ 'salt and peppered gray','streaks of gray','gray highlights','grayed roots','gray low lights'
  ]
 
 # masc body shapes
