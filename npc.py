@@ -19,19 +19,25 @@ npcType = sys.argv[1]
 age = sys.argv[2]
 
 def main(npcType = 'any', age = 'any'):
-  # job from 'patron' or 'allies and enemies' tables
-  npcJob = npcJobSelect(npcType)
-  # random names from donjon.bin.sh lists
-  forename, surname = npcNameSelect()
-  # age variations, 3 categories
-  age = determineAge(age) 
-  # body and height 2d6 tables
-  body = bodyTypes[diceRoll(2,6)] 
-  height = heights[diceRoll(2,6)]
-  # hair 
-  hairColor = determineHair(age)
-  npcObject = npc(npcJob, forename, surname, age, body, height, hairColor)
-  print(npcObject)
+  npcCount = 1
+  if isinstance(npcType,int):
+    npcCount = npcType
+    npcType = str('any')
+  print('....making',npcCount,'npcs')
+  for i in range(npcCount):
+    # job from 'patron' or 'allies and enemies' tables
+    npcJob = npcJobSelect(npcType)
+    # random names from donjon.bin.sh lists
+    forename, surname = npcNameSelect()
+    # age variations, 3 categories
+    age = determineAge(age) 
+    # body and height 2d6 tables
+    body = bodyTypes[diceRoll(2,6)] 
+    height = heights[diceRoll(2,6)]
+    # hair 
+    hairColor = determineHair(age)
+    npcObject = npc(npcJob, forename, surname, age, body, height, hairColor)
+    print(npcObject)
 
 class npc:
   def __init__(self, job, forename, surname, age, body, height, hairColor):
