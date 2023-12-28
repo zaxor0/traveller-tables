@@ -49,10 +49,18 @@ def main(npcType = 'any', age = 'middle-aged'):
   # hair 
   if age > 30:
     greyChance = age + diceRoll(2,20)
-    print(greyChance)
+
+  naturalHairChance = diceRoll(1,6)
+  if naturalHairChance <= 2:
+    hairList = unnaturalHairColors 
+  else:
+    hairList = naturalHairColors
+  hairRoll = int(diceRoll(1,len(hairList)) - 1)
+  hairColor= sorted(hairList)[hairRoll]
+
 
   npcDef = str(npcAbc + ' - ' + forename + ' ' + surname + ' age ' + str(age))
-  print(npcDef)
+  print(npcDef, hairColor)
 
 class npc:
   def __init__(self, patron, mission):
