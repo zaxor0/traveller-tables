@@ -10,37 +10,38 @@ import sys
 ## SWN refers to Stars Without Number free edition, which contains tons of useful tables
 
 npcTypes = [ 'patron', 'ally', 'enemy']
-npcAges = { 'young' : random.randint(18,29),
-            'middle-aged' : random.randint(30,50),
-            'old' : random.randint(51,80)
-          }
 
 npcType = sys.argv[1]
 age = sys.argv[2]
 
 def main(npcType = 'any', age = 'any'):
   npcCount = 1
-  if isinstance(npcType,int):
-    npcCount = npcType
+  try:
+    npcCount = int(npcType)
     npcType = str('any')
-  print('....making',npcCount,'npcs')
+  except:
+    pass
   for i in range(npcCount):
+
+
+
     # job from 'patron' or 'allies and enemies' tables
     npcJob = npcJobSelect(npcType)
     # random names from donjon.bin.sh lists
     forename, surname = npcNameSelect()
     # age variations, 3 categories
-    age = determineAge(age) 
+    ageNum = determineAge(age) 
     # body and height 2d6 tables
     body = bodyTypes[diceRoll(2,6)] 
     height = heights[diceRoll(2,6)]
     # hair 
-    hairColor = determineHair(age)
-    npcObject = npc(npcJob, forename, surname, age, body, height, hairColor)
+    hairColor = determineHair(ageNum)
+    eyeColor = random.choice(eyeColors)
+    npcObject = npc(npcJob, forename, surname, ageNum, body, height, hairColor, eyeColor)
     print(npcObject)
 
 class npc:
-  def __init__(self, job, forename, surname, age, body, height, hairColor):
+  def __init__(self, job, forename, surname, age, body, height, hairColor, eyeColor):
     self.job = job
     self.forename= forename
     self.surname = surname
@@ -49,12 +50,14 @@ class npc:
     self.body = body 
     self.height = height
     self.hairColor = hairColor 
+    self.eyeColor = eyeColor 
 
   def __str__(self):
     return f"""
            {self.job} - {self.fullName}
            {self.age} - {self.body} and {self.height}
-           {self.hairColor}
+           hair: {self.hairColor}
+           eyes: {self.eyeColor}
            """
 
 def npcJobSelect(npcType):
@@ -90,9 +93,13 @@ def npcNameSelect():
 
 def determineAge(age):
   if age == 'any':
-    ageNum = random.randint(18,80)
-  else:
-    ageNum = npcAges[age] 
+    age = random.choice(['young','young','middle-aged','middle-aged','old'])
+  npcAges = { 
+    'young' : random.randint(18,29),
+    'middle-aged' : random.randint(30,50),
+    'old' : random.randint(51,80)
+  }
+  ageNum = npcAges[age] 
   return ageNum
 
 def determineHair(age):
@@ -108,17 +115,17 @@ def determineHair(age):
   hairColor= sorted(hairList)[hairRoll]
 
   # if natural hair, chance of gray hair
-  if hairList == naturalHairColors:
+  if hairList == naturalHairColors and hairColor not in ('dark gray','gray','silver','white'):
     # partial grey
-    if grayChance >= 55:
+    if grayChance >= 60:
       grayRoll = int(diceRoll(1,len(grayedHair)) - 1)
       grayness = sorted(grayedHair)[grayRoll]
       hairColor = hairColor + ' with ' + grayness
     # all grey
-    elif grayChance >= 60:
+    elif grayChance >= 65:
       hairColor = 'gray'
     # all white
-    elif grayChance >= 70:
+    elif grayChance >= 75:
       hairColor = random.choice('silver','white')
 
   return hairColor

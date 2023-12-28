@@ -91,9 +91,9 @@ planets = [ "null", "null",
 
 # from mgt2e core rules 92
 alliesEnemies = [ 
-   "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief"
+   "Naval Officer", "Imperial Diplomat ", "Crooked Trader ", "Medical Doctor", "Eccentric", "Scientist", "Mercenary", "Famous", "Performer", "Alien Thief",
    "Free Trader", "Explorer", "Marine Captain", "Corporate", "Executive", "Researcher", "Cultural Attaché ", "Religious Leader ", "Conspirator",
-   "Rich Noble", "Artificial", "Intelligence", "Bored Noble", "Planetary Governor", "Inveterate Gambler", "Crusading Journalist", "Doomsday Cultist",
+   "Rich Noble", "Artificial Intelligence", "Bored Noble", "Planetary Governor", "Inveterate Gambler", "Crusading Journalist", "Doomsday Cultist",
    "Corporate Agent", "Criminal Syndicate", "Military Governor", "Army Quartermaster", "Private Investigator", "Starport Administrator", "Retired Admiral",
    "Alien Ambassador", "Smuggler", "Weapons Inspector", "Elder Statesman", "Planetary Warlord", "Imperial Agent"
   ]
@@ -250,9 +250,19 @@ grayedHair = [
  'salt and peppered gray','streaks of gray','gray highlights','grayed roots','gray low lights'
  ]
 
+# descriptors used on wikipedia page on eye color, and some of my own
+eyeColors = [
+  'brown','dark','dark brown','black','light brown',             # brown
+  'amber','copper','golden','yellow','green and amber','orangish amber',     # amber
+  'hazel','brownish green','goldish green',                      # hazel
+  'dark green','blue and green','blueish green',                 # green
+  'blue','crystal blue','blue green','dark blue','bright blue',  # blue 
+  'gray','light gray','dark grey','grey and blue','greyish blue' # gray 
+  ]
+
 heights = [ 
   'null', 'null',
-  'incredibly short', 'very short', 'short', 'below average height', 
+  'very short', 'short', 'below average height', 'just under average height', 
   'average height', 'average height', 'average height',
   'above average height', 'tall', 'very tall', 'incredibly tall'
   ]
@@ -260,6 +270,6 @@ heights = [
 bodyTypes = [
   'null', 'null',
   'skeletal', 'very slender', 'slender', 'slim but muscular',
-  'slim', 'average size', 'fit',
+  'slim', 'average build', 'fit',
   'curvy', 'muscular', 'heavy set', 'very muscular'
   ]
