@@ -25,22 +25,31 @@ def main(npcType = 'any', age = 'any'):
   forename, surname = npcNameSelect()
   # age variations, 3 categories
   age = determineAge(age) 
+  # body and height 2d6 tables
+  body = bodyTypes[diceRoll(2,6)] 
+  height = heights[diceRoll(2,6)]
   # hair 
   hairColor = determineHair(age)
-  npcObject = npc(npcJob, forename, surname, age, hairColor)
+  npcObject = npc(npcJob, forename, surname, age, body, height, hairColor)
   print(npcObject)
 
 class npc:
-  def __init__(self, job, forename, surname, age, hairColor):
+  def __init__(self, job, forename, surname, age, body, height, hairColor):
     self.job = job
     self.forename= forename
     self.surname = surname
     self.fullName = str(forename + ' ' + surname)
     self.age = age
+    self.body = body 
+    self.height = height
     self.hairColor = hairColor 
 
   def __str__(self):
-    return f"{self.job} - {self.fullName} - {self.age} - {self.hairColor}"
+    return f"""
+           {self.job} - {self.fullName}
+           {self.age} - {self.body} and {self.height}
+           {self.hairColor}
+           """
 
 def npcJobSelect(npcType):
   if npcType not in npcTypes and npcType != 'any':
@@ -81,27 +90,30 @@ def determineAge(age):
   return ageNum
 
 def determineHair(age):
+  grayChance = 0
   if age > 35:
-    greyChance = age + diceRoll(3,8)
+    grayChance = age + diceRoll(3,8)
+
   naturalHairChance = diceRoll(1,6)
   if naturalHairChance <= 2:
     hairList = unnaturalHairColors 
-  else:
-    hairList = naturalHairColors
+  hairList = naturalHairColors
   hairRoll = int(diceRoll(1,len(hairList)) - 1)
   hairColor= sorted(hairList)[hairRoll]
 
-  # partial grey
-  if greyChance >= 65:
-    grayRoll = int(diceRoll(1,len(grayedHair)) - 1)
-    grayness = sorted(grayedHair)[grayRoll]
-    hairColor = hairColor + ' with ' + grayness
-  # all grey
-  elif greyChance >= 70:
-    hairColor = 'gray'
-  # all white
-  elif greyChance >= 80:
-    hairColor = random.choice('silver','white')
+  # if natural hair, chance of gray hair
+  if hairList == naturalHairColors:
+    # partial grey
+    if grayChance >= 55:
+      grayRoll = int(diceRoll(1,len(grayedHair)) - 1)
+      grayness = sorted(grayedHair)[grayRoll]
+      hairColor = hairColor + ' with ' + grayness
+    # all grey
+    elif grayChance >= 60:
+      hairColor = 'gray'
+    # all white
+    elif grayChance >= 70:
+      hairColor = random.choice('silver','white')
 
   return hairColor
 

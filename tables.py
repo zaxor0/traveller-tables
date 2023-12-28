@@ -250,5 +250,16 @@ grayedHair = [
  'salt and peppered gray','streaks of gray','gray highlights','grayed roots','gray low lights'
  ]
 
-# masc body shapes
+heights = [ 
+  'null', 'null',
+  'incredibly short', 'very short', 'short', 'below average height', 
+  'average height', 'average height', 'average height',
+  'above average height', 'tall', 'very tall', 'incredibly tall'
+  ]
 
+bodyTypes = [
+  'null', 'null',
+  'skeletal', 'very slender', 'slender', 'slim but muscular',
+  'slim', 'average size', 'fit',
+  'curvy', 'muscular', 'heavy set', 'very muscular'
+  ]
