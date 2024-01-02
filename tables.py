@@ -47,8 +47,9 @@ starportQuality = {
 # 2d6 home brew
 locations = [
    "null", "null", # 0 and 1 which are unused on a 2d6 table
-   "Planet - Military", "Planet - Remote Location", "Planet - Rural", "Planet - City", "Starport",     # 2 to 6
-   "Starport", "Lunar - City", "Lunar - Outpost", "System POI", "Capital Ship", "Lunar - Military"     # 7 to 12
+   "Planet - Military", "Planet - Remote Location", "Planet - Rural",  # 2 to 6 
+   "Planet - City", "Starport", "Starport", "Lunar - City",            # 6 to 8 
+   "Lunar - Outpost", "System POI", "Capital Ship", "Lunar - Military" # 9 to 12
   ]
 
 # system points of interest, per SWN page 170
@@ -69,7 +70,8 @@ systemPOI = {
 }
 
 # 2d6 distances, homebrew, 0 means same system
-parsecsAway = [ 'null', 'null', # 0 and 1 
+parsecsAway = [ 
+  'null', 'null', # 0 and 1 
   5, 4, 3, 2,   # 2 to 5 
   0, 1, 0,      # 6 to 8
   2, 3, 4, 5    # 9 to 12
@@ -82,7 +84,8 @@ distances = {
   }
 
 # 2d6 planets, homebrew, primary planet most likely
-planets = [ "null", "null", 
+planets = [ 
+  "null", "null", 
   "far gas giant", "close gas giant", "far neighbor world", "close neighbor world", # 2 to 5 
   "primary world","primary world","primary world",                                  # 6 to 8
   "close neighbor world","far neighbor world","close gas giant", "far gas giant"    # 9 to 12
@@ -100,7 +103,7 @@ alliesEnemies = [
 
 characterQuirks = [
   'Loyal', 'Distracted by other worries','In debt to criminals','Makes very bad jokes','Will betray characters','Aggressive','Has secret allies',
-  'Secret anagathic user','Looking for something','Helpful','Forgetful','Wants to hire the Travellers','Has useful contacts','Artistic','Easily confused'
+  'Secret anagathic user','Looking for something','Helpful','Forgetful','Wants to hire the Travellers','Has useful contacts','Artistic','Easily confused',
   'Unusually ugly','Worried about current situation','Shows pictures of their children','Rumour-monger','Unusually provincial','Drunkard or drug addict',
   'Government informant','Mistakes a Traveller for someone else','Possesses unusually advanced technology','Unusually handsome or beautiful',
   'Spying on the Travellers','Possesses TAS membership','Is secretly hostile towards the Travellers','Wants to borrow money',
@@ -250,26 +253,28 @@ grayedHair = [
  'salt and peppered gray','streaks of gray','gray highlights','grayed roots','gray low lights'
  ]
 
-# descriptors used on wikipedia page on eye color, and some of my own
+# descriptors used on wikipedia page on eye color, and some of my own variations on those
 eyeColors = [
-  'brown','dark','dark brown','black','light brown',             # brown
+  'brown','dark','dark brown','black','light brown',                         # brown
   'amber','copper','golden','yellow','green and amber','orangish amber',     # amber
-  'hazel','brownish green','goldish green',                      # hazel
-  'dark green','blue and green','blueish green',                 # green
-  'blue','crystal blue','blue green','dark blue','bright blue',  # blue 
-  'gray','light gray','dark grey','grey and blue','greyish blue' # gray 
+  'hazel','brownish green','goldish green',                                  # hazel
+  'dark green','blue and green','blueish green',                             # green
+  'blue','crystal blue','blue green','dark blue','bright blue',              # blue 
+  'gray','light gray','dark grey','grey and blue','greyish blue'             # gray 
   ]
 
+# 2d6 off the top of my head
 heights = [ 
   'null', 'null',
-  'very short', 'short', 'below average height', 'just under average height', 
-  'average height', 'average height', 'average height',
-  'above average height', 'tall', 'very tall', 'incredibly tall'
+  'very short', 'short', 'below average height', 'just under average height',   # 2 to 5 
+  'average height', 'average height', 'average height',                         # 6 to 8
+  'above average height', 'tall', 'very tall', 'incredibly tall'                # 9 to 12
   ]
 
+# 2d6 off the top of my head
 bodyTypes = [
   'null', 'null',
-  'skeletal', 'very slender', 'slender', 'slim but muscular',
-  'slim', 'average build', 'fit',
-  'curvy', 'muscular', 'heavy set', 'very muscular'
+  'skeletal', 'very slender', 'slender', 'slim but muscular',   # 2 to 5
+  'slim', 'average build', 'fit',                               # 6 to 8
+  'curvy', 'muscular', 'heavy set', 'very muscular'             # 9 to 12
   ]

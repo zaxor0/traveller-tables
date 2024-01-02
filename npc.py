@@ -9,22 +9,18 @@ import sys
 ## mgt2e refers to mongoose traveller second edition 2022 update
 ## SWN refers to Stars Without Number free edition, which contains tons of useful tables
 
-npcTypes = [ 'patron', 'ally', 'enemy']
+npcTypes = [ 'patron', 'ally', 'enemy', 'none']
 
 npcType = sys.argv[1]
 age = sys.argv[2]
+try:
+  npcCount = int(sys.argv[3])
+except:
+  pass
 
-def main(npcType = 'any', age = 'any'):
-  npcCount = 1
-  try:
-    npcCount = int(npcType)
-    npcType = str('any')
-  except:
-    pass
+
+def main(npcType = 'any', age = 'any', npcCount = 1):
   for i in range(npcCount):
-
-
-
     # job from 'patron' or 'allies and enemies' tables
     npcJob = npcJobSelect(npcType)
     # random names from donjon.bin.sh lists
@@ -37,11 +33,17 @@ def main(npcType = 'any', age = 'any'):
     # hair 
     hairColor = determineHair(ageNum)
     eyeColor = random.choice(eyeColors)
-    npcObject = npc(npcJob, forename, surname, ageNum, body, height, hairColor, eyeColor)
+    # quirks
+    chanceforQuirk = diceRoll(1,6) 
+    if chanceforQuirk == 1:
+      quirk = random.choice(characterQuirks)
+    else:
+      quirk = ""
+    npcObject = npc(npcJob, forename, surname, ageNum, body, height, hairColor, eyeColor, quirk)
     print(npcObject)
 
 class npc:
-  def __init__(self, job, forename, surname, age, body, height, hairColor, eyeColor):
+  def __init__(self, job, forename, surname, age, body, height, hairColor, eyeColor, quirk):
     self.job = job
     self.forename= forename
     self.surname = surname
@@ -51,10 +53,11 @@ class npc:
     self.height = height
     self.hairColor = hairColor 
     self.eyeColor = eyeColor 
+    self.quirk = quirk
 
   def __str__(self):
     return f"""
-           {self.job} - {self.fullName}
+           {self.job} - {self.fullName} - {self.quirk}
            {self.age} - {self.body} and {self.height}
            hair: {self.hairColor}
            eyes: {self.eyeColor}
@@ -70,8 +73,10 @@ def npcJobSelect(npcType):
 
   if npcType == 'ally' or 'enemy':
     npcTable = alliesEnemies
-  elif npcType == 'patron':
+  if npcType == 'patron':
     npcTable = patrons
+  if npcType == 'none':
+    return ' '
 
   # create npc job
   npcJobRoll = int(diceRoll(1,len(npcTable)) - 1)
@@ -140,4 +145,4 @@ def diceRoll(dieCount,dieSides):
     dieTotal += dieVal
   return(dieTotal)
 
-main(npcType, age)
+main(npcType, age, npcCount)
