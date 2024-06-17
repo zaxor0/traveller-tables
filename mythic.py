@@ -2,35 +2,9 @@
 
 import os
 import random
+from mythicTables import *
 
 # variables
-
-fateChart = {
-  'certain' : {
-    1 : {10,50,91}, 2 : {13,65,94}, 3 : {15,75,96}, 4 : {17,85,98}, 5 : {18,90,99}, 6 : {19,95,100}, 7 : {20,99,'X'}, 8 : {20,99,'X'}, 9 : {20,99,'X'} },
-  'nearly certain' : {
-    1 : {7,35,88}, 2 : {10,50,91}, 3 : {13,65,94}, 4 : {15,75,96}, 5 : {17,85,98}, 6 : {18,90,99}, 7 : {19,95,100}, 8 : {20,99,'X'}, 9 : {20,99,'X'}},
-  'very likely' : {
-    1 : { 5,25,86}, 2 : {7,35,88}, 3 : {10,50,91}, 4 : {13,65,94}, 5 : {15,75,96}, 6 : {17,85,98}, 7 : {18,90,99}, 8 : {19,95,100}, 9 : {20,99,'X'}},
-  'likely' : {
-    1 : { 3,15,84}, 2 : {5,25,86}, 3 : {7,35,88}, 4 : {10,50,91}, 5 : {13,65,94}, 6 : {15,75,96}, 7 : {17,85,98}, 8 : {18,90,99}, 9 : {19,95,100}},
-  '50/50' : {
-    1 : { 2,10,83}, 2 : {3,15,84}, 3 : {5,25,86}, 4 : {7,35,88}, 5 : {10,50,91}, 6 : {13,65,94}, 7 : {15,75,96}, 8 : {17,85,98}, 9 : {18,90,99}},
-  'unlikely' : {
-    1 : { 1,5,82}, 2 : {2,10,83}, 3 : {3,15,84}, 4 : {5,25,86}, 5 : {7,35,88}, 6 : {10,50,91}, 7 : {13,65,94}, 8 : {15,75,96}, 9 : {17,85,98}},
-  'very unlikely' : {
-    1 : { 'X',1,81}, 2 : {1,5,82}, 3 : {2,10,83}, 4 : {3,15,84}, 5 : {5,25,86}, 6 : {7,35,88}, 7 : {10,50,91}, 8 : {13,65,94}, 9 : {15,75,96}},
-  'nearly impossible' : {
-    1 : { 'X',1,81}, 2 : {'X',1,81}, 3 : {1,5,82}, 4 : {2,10,83}, 5 : {3,15,84}, 6 : {5,25,86}, 7 : {7,35,88}, 8 : {10,50,91}, 9 : {13,65,94}},
-  'impossible' : {
-    1 : { 'X',1,81}, 2 : {'X',1,81}, 3 : {'X',1,81}, 4 : {1,5,82}, 5 : {2,10,83}, 6 : {3,15,84}, 7 : {5,25,86}, 8 : {7,35,88}, 9 : {10,50,91}}
-  }
-
-sceneAdjustmentTable = {
-  1 : 'Remove a character', 2 : 'Add a character', 3 : 'Reduce/remove an activity', 4 : 'Increase an activity', 
-  5 : 'Remove an object', 6 : 'Add an object', 7 : 'Make 2 adjustments' 
-  }
-
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 nos    = ['No','no','N','n','Nope','nope','Nah','nah']
 
@@ -61,8 +35,8 @@ def main():
       print("Rolled less than or equal to the Chaos Factor")
       # if odd, alter the scene
       if sceneRoll % 2 != 0:
-        print('\nRolled,',str(sceneRoll),'! Odd -- The scene is Altered!') 
-        print('This mean the scene occurs in the next most expected way, make just a tweak to it or you can ask a fate question')
+        print('\nScene Altered!') 
+        print('This scene now occurs in the _next_ most expected way, make just a tweak to it or you can ask a fate question')
         adjustmentRoll = diceRoll(1,10)
         print('....Rolling adjustments...',str(adjustmentRoll))
         adjustmentString = ''
@@ -74,12 +48,21 @@ def main():
         else:
           adjustmentString = sceneAdjustmentTable[adjustmentRoll]
         print('adjust scene by:',adjustmentString,'\n')
-        testing = input("Enter any key to continue\n> ")
+        input("Enter any key to continue\n> ")
           
       # if even, alter interrupt the scene
       if sceneRoll % 2 == 0:
-        print("Event! Interrupt the Scene!") 
-        testing = input("Enter any key to continue\n> ")
+        print("\nScene Interrupted!") 
+        print('This scene now ignore your expectations entirely! Roll event focus and event meaning, then interpret!')
+        # roll event focus
+        eventFocusRoll = diceRoll(1,100)
+        chosenFocus = ''
+        for focusValue in eventFocusTable:
+          if focusValue >= eventFocusRoll:
+            chosenFocus = eventFocusTable[focusValue]
+            break
+        print('Event Focus:',chosenFocus,'(Rolled',eventFocusRoll,')')
+        input("Enter any key to continue\n> ")
     else:
       print("Rolled greater than the Chaos Factor", str(chaosFactor))
       print("Play out the scene until there is a question.")
@@ -152,8 +135,5 @@ def diceRoll(dieCount,dieSides):
     dieVal = random.randint(min,max)
     dieTotal += dieVal
   return(dieTotal)
-
-
-
 
 main()
