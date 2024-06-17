@@ -97,6 +97,7 @@ def main():
     # add it to the list of possible missions
     missionArray.append(missionObject)
     
+
 #  clear()
   selected = False
   while selected == False:
@@ -106,7 +107,7 @@ def main():
       position += 1
       targetWorld = str(world['WorldName'])
       if mission.jumps > 0:
-        print('zone...',mission.targetSystem['Zone'])
+        #print('zone...',mission.targetSystem['Zone'])
         if mission.targetSystem['Zone'] == 'A':
           #zone = str('- ' + mission.targetSystem['Zone'])
           zone = 'Amber Zone, '
@@ -240,7 +241,6 @@ def thrustCalculation(ship, parsecs, distance, jumps, days):
   return travelTime, daysToComplete, thrustDays, thrustHoursRemainder
 
 def threatMultiplier(location, opposition, target, mission, bonus, targetSystem):
-  print(targetSystem)
   threat = 0
   if 'Military' in location:
     threat += 1

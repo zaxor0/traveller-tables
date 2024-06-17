@@ -6,7 +6,7 @@ import sys
 import time
 
 def worldSearch(world, sectorName=False):
-  print('Loading data from travellermap.com')
+  print('### Loading data from travellermap.com')
   if sectorName:
     sectorName = sectorName.replace(' ','%20')
     query = str(world + "%20in:" + sectorName)
