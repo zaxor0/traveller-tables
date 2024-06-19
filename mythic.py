@@ -145,7 +145,7 @@ def main():
         if fateRoll >= exceptionalNo:
           fateAnswer = 'exceptional NO!'
         print('the fates say ...',fateAnswer,'... rolled',fateRoll,' on [',exceptionalYes,'|',yesAnswer,'|',exceptionalNo,']')
-      else:
+      elif question in nos:
         sceneActive= False  
         chaosUpdated = False
         while chaosUpdated == False:
@@ -162,6 +162,9 @@ def main():
         print('Scene',sceneCount,'has ended. Questions asked:',questionCount)
         input("\n ... Press any key to continue to your next scene ...")
         clear()
+      else:
+        print('\n ! not a valid entry !')
+        input("\n ... Press any key to continue ...")
 
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
