@@ -8,9 +8,10 @@ from mythicTables import *
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 nos    = ['No','no','N','n','Nope','nope','Nah','nah']
 
-
+# functions
 clear = lambda: os.system('clear')
 
+# main function
 def main():
   clear()
   print("welcome to mythic")
@@ -50,7 +51,6 @@ def main():
         else:
           adjustmentString = sceneAdjustmentTable[adjustmentRoll]
         print('adjust scene by:',adjustmentString,'\n')
-        input("\n ... Enter any key to continue ... ")
       # if even, alter interrupt the scene
       elif sceneRoll % 2 == 0:
         print("\nScene Interrupted!") 
@@ -105,7 +105,7 @@ def main():
       input("\n ... Enter any key to continue ... ")
    
     # after any adjustments or interrupts enter normal fate question loop
-    print("Play out the scene until there is a question.")
+    print("\nPlay out the scene until there is a question.")
     sceneActive = True
     questionCount = 0
     while sceneActive == True:
