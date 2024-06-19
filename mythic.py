@@ -50,10 +50,9 @@ def main():
         else:
           adjustmentString = sceneAdjustmentTable[adjustmentRoll]
         print('adjust scene by:',adjustmentString,'\n')
-        input("... Enter any key to continue ...")
-          
+        input("\n ... Enter any key to continue ... ")
       # if even, alter interrupt the scene
-      if sceneRoll % 2 == 0:
+      elif sceneRoll % 2 == 0:
         print("\nScene Interrupted!") 
         print('This scene now ignore your expectations entirely! Roll event focus and event meaning, then interpret!')
         # roll event focus
@@ -64,10 +63,49 @@ def main():
             chosenFocus = eventFocusTable[focusValue]
             break
         print('Event Focus:',chosenFocus,'- Rolled',eventFocusRoll)
-        input("... Enter any key to continue ...")
+        print('Now select a event meaning table to roll on:')
+        count = 0
+        choices = []
+        for possibleTable in meaningTables:
+          if possibleTable == 'Elements':
+            for subTable in meaningTables[possibleTable]:
+              count += 1
+              tableName = possibleTable + ' - ' + subTable
+              choices.append(tableName)
+              print(str(count),tableName)
+          else:
+            count += 1
+            choices.append(possibleTable)
+            print(str(count),possibleTable)
+        chosenTable = int(input('Which table would you like?\n> '))
+        chosenTable = choices[int(chosenTable - 1)]
+        print('Selected: ',chosenTable)
+        # rolling twice on table
+        firstMeaning = diceRoll(1,100)
+        secondMeaning = diceRoll(1,100)
+        if chosenTable.startswith('Elements'):
+          splitTable = chosenTable.split(' - ')
+          chosenTable = splitTable[0]
+          subTable = splitTable[1]
+          firstMeaning = meaningTables[chosenTable][subTable][firstMeaning]
+          secondMeaning = meaningTables[chosenTable][subTable][secondMeaning]
+        else:
+          subTable = diceRoll(1,2)
+          firstMeaning = meaningTables[chosenTable][subTable][firstMeaning]
+          secondMeaning = meaningTables[chosenTable][subTable][secondMeaning]
+        # in the event you roll the same thing twice, double down by interpretting it with greater intensity, page 49
+        if firstMeaning == secondMeaning:
+          meanings = firstMeaning + ' - DOUBLE DOWN!'
+        else:
+          meanings = firstMeaning + ' and ' + secondMeaning
+        print('\nMeanings to interpret:',meanings)
 
 
-    print('\nScene',sceneCount,'BEGIN! Play out the scene until there is a question.')
+      # interrupt or adjust complete, continue to play out the scene
+      input("\n ... Enter any key to continue ... ")
+   
+    # after any adjustments or interrupts enter normal fate question loop
+    print("Play out the scene until there is a question.")
     sceneActive = True
     questionCount = 0
     while sceneActive == True:
@@ -98,13 +136,6 @@ def main():
             print("not a valid selection, select a number between 1 and 9")
             fateLikeSelect = False
         fateRoll = diceRoll(1,100)
-#        print('You have selected',likelihood,'which has 3 numbers determined by the chaos factor, which is',chaosFactor)
-#        print('\n    Execptional Yes     1 to',str(exceptionalYes))
-#        print('        Yes           ',str(exceptionalYes + 1),'to',yesAnswer)
-#        print('        No            ',str(yesAnswer + 1),'to',str(exceptionalNo - 1))
-#        print('    Execptional No    ',exceptionalNo,'to 100')
-#        input('\n Press any key to ROLL!')
-#        print("\nRolling...", str(fateRoll))
         if fateRoll <= exceptionalYes:
           fateAnswer = 'exceptional YES!'
         if fateRoll > exceptionalYes and fateRoll <= yesAnswer:
