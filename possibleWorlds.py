@@ -62,6 +62,14 @@ def nearbyPlanets(world, jump):
       planetsArray.append(planet['Name'])
   return planetsArray, nearbyWorlds
 
+def nearbyPlanetsCoords(world, jump):
+  nearbyWorlds = jumpSearch(world, jump)
+  planetsDict = {}
+  for planet in nearbyWorlds['Worlds']:
+    if planet['Name'] != world:
+      planetsDict[planet['Name']] = planet['Hex']
+  return planetsDict, nearbyWorlds
+
 def worldPoster(world):
   try: # data format provided by the world detailed results (called credits in the api)
     sectorName = str(world['SectorName']) 
