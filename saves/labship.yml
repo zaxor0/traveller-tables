@@ -1,4 +1,5 @@
 type: "lab ship"
+location : "dennu"
 hull : 360
 jump : 2
 thrust : 2 
