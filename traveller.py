@@ -19,7 +19,7 @@ worldName = ""
 parsecs = 5
 
 # player input options
-keys = { 'm' : 'map view' }
+keys = { '1' : 'ship details', '2' : 'map view' }
 
 # arguments, only accept save files
 try:
@@ -35,20 +35,22 @@ ship = {}
 
 def main(saveFile): 
   saveFile = loadingScreen(saveFile)
-  ship = loadShip(saveFile)
-  worldName = ship['location']
-  currentSystem = systemDetails(worldName) 
+  saveFile = loadSave(saveFile)
+  system = saveFile['location']['system']
+  sector = saveFile['location']['sector']
+  ship = saveFile['ship'] 
+  currentSystem = systemDetails(system,sector) 
   currentSystemName = currentSystem['WorldName']
   gameActive = True
   while gameActive == True:
-    playerInput(currentSystem, parsecs)
+    playerInput(currentSystem, sector, parsecs, ship)
 
-def loadShip(shipFile):
-  print('...loading',str(shipFile))
+def loadSave(saveFile):
+  print('...loading',str(saveFile))
   # your ship details
-  with open(shipFile, 'r') as file:
-    ship = yaml.safe_load(file)
-  return ship
+  with open(saveFile, 'r') as file:
+    saveFile = yaml.safe_load(file)
+  return saveFile
 
 def loadingScreen(saveFile):
   clear()
@@ -76,25 +78,28 @@ def loadingScreen(saveFile):
   saveFile = saveDir + saveFile
   return saveFile
 
-def playerInput(currentSystem, parsecs):
+def playerInput(currentSystem, sector, parsecs, ship):
   print('\nPress a key',keys)
   playerKey = getch.getch()
-  print('key is', playerKey)
-  if playerKey == chr(27):
-    print('ESCAPE')
+  #print('key is', playerKey)
+  possibleKey = False
   for key in keys:
     if playerKey == key:
-      if key == 'm':
+      possibleKey = True
+      if key == '1': # ship view
         clear()
-        printMap(currentSystem, parsecs)
-    else:
-      print('invalid key',str(playerKey))
+        print(ship)
+      if key == '2': # map
+        clear()
+        printMap(currentSystem, sector, parsecs)
+  if possibleKey == False:
+    print('invalid key',str(playerKey))
 
-def systemDetails(worldName):
-  #if sectorName:
-  #  world = worldSearch(worldName, sectorName)
-  #else:
-  world = worldSearch(worldName)
+def systemDetails(system, sector):
+  if sector:
+    world = worldSearch(system, sector)
+  else:
+    world = worldSearch(system)
   currentSystem = worldDetailed(world)
   return currentSystem
 

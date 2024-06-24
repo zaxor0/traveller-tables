@@ -16,10 +16,7 @@ letters = list(map(chr, range(97, 123)))
 clear = lambda: os.system('clear')
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 
-def printMap(world, parsecs):
-  #world = worldDetailed(world)
-  worldArray = []
-  worldCount = 10
+def printMap(world, sector, parsecs):
   systemHexLocations, nearbyWorlds = nearbyPlanetsCoords(world, parsecs)
   zeroSystem = world['WorldName']
   zeroPlane = systemHexLocations[zeroSystem]
@@ -136,7 +133,20 @@ def printMap(world, parsecs):
       print(' ',str(xCount),sep='',end='')
     xCount += 1
   print()
+
+  printWorldDetails(nearbySystems, sector)
     
+def printWorldDetails(nearbySystems,sector):
+  selectedWorld = input('Select a world (letter) for more info\n> ')
+  for system in nearbySystems:
+    if selectedWorld == nearbySystems[system]['letter']:
+      world = worldSearch(system, sector)
+      world = worldDetailed(world)
+  print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
+  print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
+  print('Remarks:',world['WorldRemarks'])
+
+
 def diceRoll(dieCount,dieSides):
   dieTotal = 0
   for i in range(0,dieCount):
@@ -145,3 +155,5 @@ def diceRoll(dieCount,dieSides):
     dieVal = random.randint(min,max)
     dieTotal += dieVal
   return(dieTotal)
+
+

@@ -43,6 +43,44 @@ starportQuality = {
  'X' : { 'Quality' : 'No Starport', 'Berthing Cost' : '0', 'Fuel': 'Unrefined', 'Facilities' : 'None', 'Bases' : 'Corsair 10+' }
  }
 
+worldSize = { 
+  '0' : {'size' : '800 km', 'gravity' : 'negligible' },
+  '1' : {'size' : '1,600 km', 'gravity' : '.05' },
+  '2' : {'size' : '3,200 km', 'gravity' : '.15' },
+  '3' : {'size' : '4,800 km', 'gravity' : '.25' },
+  '4' : {'size' : '6,400 km', 'gravity' : '.35' },
+  '5' : {'size' : '8,000 km', 'gravity' : '.45' },
+  '6' : {'size' : '9,600 km', 'gravity' : '.7' },
+  '7' : {'size' : '11,200 km', 'gravity' : '.9' },
+  '8' : {'size' : '12,800 km', 'gravity' : '1.' },
+  '9' : {'size' : '14,400 km', 'gravity' : '1.25' },
+  'A' : {'size' : '16,000 km', 'gravity' : '1.4' }
+  }
+
+worldAtmosphere = {
+  '0' : {'Atmosphere' : 'None', 'Pressure' : '0.00', 'Required Gear' : 'Vacc Suit' },
+  '1' : {'Atmosphere' : 'Trace', 'Pressure' : '0.001 to 0.09', 'Required Gear' : 'Vacc Suit'},
+  '2' : {'Atmosphere' : 'Very Thin, Tainted', 'Pressure' : '0.1 to 0.42', 'Required Gear' : 'Respirator, Filter'},
+  '3' : {'Atmosphere' : 'Very Thin', 'Pressure' : '0.1 to 0.42', 'Required Gear' : 'Respirator'},
+  '4' : {'Atmosphere' : 'Thin, Tainted', 'Pressure' : '0.43 to 0.7', 'Required Gear' : 'Filter'},
+  '5' : {'Atmosphere' : 'Thin', 'Pressure' : '0.43 to 0.7', 'Required Gear' : ''},
+  '6' : {'Atmosphere' : 'Standard', 'Pressure' : '0.71 to 1.49', 'Required Gear' : ''},
+  '7' : {'Atmosphere' : 'Standard, Tainted', 'Pressure' : '0.7 to 1.49', 'Required Gear' : 'Filter'},
+  '8' : {'Atmosphere' : 'Dense', 'Pressure' : '1.5 to 2.49', 'Required Gear' : ''},
+  '9' : {'Atmosphere' : 'Dense, Tainted', 'Pressure' : '1.5 to 2.49', 'Required Gear' : 'Filter'},
+  'A' : {'Atmosphere' : 'Exotic', 'Pressure' : 'Varies', 'Required Gear' : 'Air Supply'},
+  'B' : {'Atmosphere' : 'Corrosive', 'Pressure' : 'Varies', 'Required Gear' : 'Vacc Suit'},
+  'C' : {'Atmosphere' : 'Insidious', 'Pressure' : 'Varies', 'Required Gear' : 'Vacc Suit'},
+  'D' : {'Atmosphere' : 'Dense, High', 'Pressure' : '2.5+', 'Required Gear' : ''},
+  'E' : {'Atmosphere' : 'Thin, Low', 'Pressure' : '0.5 or less', 'Required Gear' : ''},
+  'F' : {'Atmosphere' : 'Unusual', 'Pressure' : 'Varies', 'Required Gear' : 'Varies'}
+  }
+
+# Hydrographic percentage
+# Population
+# Government Type
+# Law Level
+# Tech Level
 
 # 2d6 home brew
 locations = [

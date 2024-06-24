@@ -114,3 +114,6 @@ def travellerMap(world):
   sectorName = sectorName.replace(' ','%20')
   url = 'https://travellermap.com/go/' + sectorName + '/' + worldHex 
   return url
+
+
+def uwpTranslator(uwp)

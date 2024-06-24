@@ -1,9 +1,12 @@
-type: "lab ship"
-location : "dennu"
-hull : 360
-jump : 2
-thrust : 2 
-cost : 58871600 
+location :
+  system : "Dennu"
+  sector : "Iphigenaia"
+ship :
+  type : "lab ship"
+  hull : 360
+  jump : 2
+  thrust : 2 
+  cost : 58871600 
 crew : 
   - "pilot"
   - "astrogator"
