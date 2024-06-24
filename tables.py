@@ -76,11 +76,86 @@ worldAtmosphere = {
   'F' : {'Atmosphere' : 'Unusual', 'Pressure' : 'Varies', 'Required Gear' : 'Varies'}
   }
 
-# Hydrographic percentage
-# Population
-# Government Type
-# Law Level
-# Tech Level
+worldHydrographics = {
+  '0' : {'Hydrographic Percentage' : '0% - 5%', 'Description' : 'Desert world' },
+  '1' : {'Hydrographic Percentage' : '6% - 15%', 'Description' : 'Dry world' },
+  '2' : {'Hydrographic Percentage' : '16% - 25%', 'Description' : 'A few small seas' },
+  '3' : {'Hydrographic Percentage' : '26% - 35%', 'Description' : 'Small seas and oceans' },
+  '4' : {'Hydrographic Percentage' : '36% - 45%', 'Description' : 'Wet World' },
+  '5' : {'Hydrographic Percentage' : '46% - 55%', 'Description' : 'A large ocean' },
+  '6' : {'Hydrographic Percentage' : '56% - 65%', 'Description' : 'Large oceans' },
+  '7' : {'Hydrographic Percentage' : '66% - 75%', 'Description' : 'Earth-like' },
+  '8' : {'Hydrographic Percentage' : '76% - 85%', 'Description' : 'Only a few islands and archipelagos' },
+  '9' : {'Hydrographic Percentage' : '86% - 95%', 'Description' : 'Almost entirely water' },
+  'A' : {'Hydrographic Percentage' : '96% - 100%', 'Description' : 'Waterworld' }
+}
+
+worldPopulation = {
+  '0' : { 'Inhabitants' : 'None', 'Range' : '0', 'Description' : '--' }, 
+  '1' : { 'Inhabitants' : 'Few', 'Range' : '1+', 'Description' : 'A tiny farmstead or a single family' }, 
+  '2' : { 'Inhabitants' : 'Hundreds', 'Range' : '100+', 'Description' : 'A village' }, 
+  '3' : { 'Inhabitants' : 'Thousands', 'Range' : '1,000+', 'Description' : '' }, 
+  '4' : { 'Inhabitants' : 'Tens of thousands', 'Range' : '10,000+', 'Description' : 'Small town' }, 
+  '5' : { 'Inhabitants' : 'Hundreds of thousands', 'Range' : '100,000+', 'Description' : 'Average city' }, 
+  '6' : { 'Inhabitants' : 'Millions', 'Range' : '1,000,000+', 'Description' : '' }, 
+  '7' : { 'Inhabitants' : 'Tens of millions', 'Range' : '10,000,000+', 'Description' : 'Large city' }, 
+  '8' : { 'Inhabitants' : 'Hundreds of millions', 'Range' : '100,000,000+', 'Description' : '' }, 
+  '9' : { 'Inhabitants' : 'Billions', 'Range' : '1,000,000,000+', 'Description' : 'Present day Earth' }, 
+  'A' : { 'Inhabitants' : 'Tens of billions', 'Range' : '10,000,000,000+', 'Description' : '' }, 
+  'B' : { 'Inhabitants' : 'Hundreds of billions', 'Range' : '100,000,000,000+', 'Description' : 'Incredibly crowded world' }, 
+  'C' : { 'Inhabitants' : 'Trillions', 'Range' : '1,000,000,000,000+', 'Description' : 'World-city' } 
+}
+
+worldGovernment = {
+  '0' : {'Government Type' : 'None' },
+  '1' : {'Government Type' : 'Company/Corporation' },
+  '2' : {'Government Type' : 'Participating Democracy' },
+  '3' : {'Government Type' : 'Self-Perpetuating Oligarchy' },
+  '4' : {'Government Type' : 'Representative Democracy' },
+  '5' : {'Government Type' : 'Feudal Technocracy' },
+  '6' : {'Government Type' : 'Captive Government' },
+  '7' : {'Government Type' : 'Balkanisation' },
+  '8' : {'Government Type' : 'Civil Service Bureaucracy' },
+  '9' : {'Government Type' : 'Impersonal Bureaucracy' },
+  'A' : {'Government Type' : 'Charismatic Dictator' },
+  'B' : {'Government Type' : 'Non-Charismatic Dictator' },
+  'C' : {'Government Type' : 'Charismatic Oligarchy' },     
+  'D' : {'Government Type' : 'Religious Dictatorship' },
+  'E' : {'Government Type' : 'Religious Autocracy' },
+  'F' : {'Government Type' : 'Totalitarian Oligarchy' }
+}
+
+worldLawLevel = {
+  '0' : { 'Weapons Banned' : 'No restrictions – heavy armour and a handy weapon recommended...' },
+  '1' : { 'Weapons Banned' : 'Poison gas, explosives, undetectable weapons, WMDs', 'Armour' : 'Battle dress' },
+  '2' : { 'Weapons Banned' : 'Portable energy and laser weapons', 'Armour' : 'Combat armour' },
+  '3' : { 'Weapons Banned' : 'Military weapons', 'Armour' : 'Flak' },
+  '4' : { 'Weapons Banned' : 'Light assault weapons and submachine guns', 'Armour' : 'Cloth' },
+  '5' : { 'Weapons Banned' : 'Personal concealable weapons', 'Armour' : 'Mesh' },
+  '6' : { 'Weapons Banned' : 'All firearms except shotguns & stunners; carrying weapons discouraged', 'Armour' : '' },
+  '7' : { 'Weapons Banned' : 'Shotguns', 'Armour' : '' },
+  '8' : { 'Weapons Banned' : 'All bladed weapons,stunners', 'Armour' : 'All visible armour' },
+  '9' : { 'Weapons Banned' : 'All weapons', 'Armour' : 'All armour' }
+}
+
+techLevel = {
+  '0' : { 'Level' : 'Primitive', 'Description' : 'No technology. TL0 worlds have only discovered the simplest tools and principles and are on par with Earth’s Stone Age.' }
+  '1' : { 'Level' : 'Primitive', 'Description' : 'Roughly on a par with Bronze or Iron age technology. TL1 science is mostly superstition but manufacture weapons and work metals.' },
+  '2' : { 'Level' : 'Primitive)', 'Description' : 'Renaissance technology. TL2 brings with it a greater understanding of chemistry, physics, biology and astronomy as well as the scientific method.' },
+  '3' : { 'Level' : 'Primitive)', 'Description' : 'The advances of TL2 are now applied, bringing the germ of industrial revolution and steam power. Primitive firearms now dominate the battlefield. This is roughly comparable to the early 19th Century.' },
+  '4' : { 'Level' : 'Industrial)', 'Description' : 'The transition to industrial revolution is complete, bringing plastics, radio and other such inventions. Roughly comparable to the late 19th/early 20th Century.' },
+  '5' : { 'Level' : 'Industrial)', 'Description' : 'TL5 brings widespread electrification, telecommunications and internal combustion. At the high end of the TL, atomics and primitive computing appear. Roughly on a par with the mid-20th Century.' },
+  '6' : { 'Level' : 'Industrial)', 'Description' : 'TL6 brings the development of fission power and more advanced computing. Advances in materials technology and rocketry bring about the dawn of the space age.' },
+  '7' : { 'Level' : 'Pre-Stellar)', 'Description' : 'A pre-stellar society can reach orbit reliably and has telecommunications satellites. Computers and integrated circuits become ubiquitous. At the time of writing, Earth is currently somewhere between TL7 and TL8.' },
+  '8' : { 'Level' : 'Pre-Stellar)', 'Description' : 'At TL8, it is possible to reach other worlds in the same star system, although terraforming or full colonisation are not within the culture’s capacity. Permanent space habitats become possible. Fusion power becomes commercially viable.' },
+  '9' : { 'Level' : 'Pre-Stellar)', 'Description' : 'The defining element of TL9 is the development of gravity manipulation, which makes space travel vastly safer and faster. This research leads to development of the jump drive, which occurs near the end of this Tech Level. TL9 cultures can colonise other worlds, although travelling to a colony is often a one-way trip.' },
+  'A' : { 'Level' : 'Early Stellar)', 'Description' : 'With the advent of commonly available jump drives, nearby systems are opened up. Orbital habitats and factories become common. Interstellar travel and trade lead to an economic boom. Colonies become much more viable. ' },
+  'B' : { 'Level' : 'Early Stellar)', 'Description' : 'The first true artificial intelligences become possible, as computers are able to model synaptic networks. Grav- supported structures reach to the heavens. Jump-2 travel becomes possible, allowing easier travel beyond the one jump stellar mains ' },
+  'C' : { 'Level' : 'Average Stellar)', 'Description' : 'Planetwide weather control revolutionises terraforming and agriculture. Portable plasma weapons and carrier-mounted fusion guns make the battlefield untenable for unarmoured combatants. Jump-3 travel is developed.' },
+  'D' : { 'Level' : 'Average Stellar)', 'Description' : 'Battle dress appears on the battlefield in response to new weapons, heralding the pinnacle of personal armour and making infantry the equivalent of less advanced armoured vehicles. Cloning of body partsbecomes easy. Jump-4 travel appears.' },
+  'E' : { 'Level' : 'Average Stellar)', 'Description' : 'Fusion weapons become portable. Flying cities appear. Jump-5 drives are built.' },
+  'F' : { 'Level' : 'High Stellar)', 'Description' : 'Black globe generators suggest a new direction for defensive technologies, while the development of synthetic anagathics means that human lifespan is now vastly increas' }
+}
 
 # 2d6 home brew
 locations = [
