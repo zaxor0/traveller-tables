@@ -19,7 +19,7 @@ worldName = ""
 parsecs = 5
 
 # player input options
-keys = { '1' : 'ship details', '2' : 'map view' }
+keys = { '1' : 'ship details', '2' : 'map view' , '3' : 'Jump' , 'ESC' : 'Quit'}
 
 # arguments, only accept save files
 try:
@@ -29,6 +29,8 @@ except:
 
 clear = lambda: os.system('clear')
 
+
+letters = list(map(chr, range(97, 123)))
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 nos    = ['No','no','N','n','Nope','nope','Nah','nah']
 ship = {}
@@ -81,8 +83,12 @@ def loadingScreen(saveFile):
 def playerInput(currentSystem, sector, parsecs, ship):
   print('\nPress a key',keys)
   playerKey = getch.getch()
-  #print('key is', playerKey)
   possibleKey = False
+  if playerKey == chr(27): # quit
+    possibleKey = True
+    exitGame = input('\nAre you sure you want to quit?\n> ')
+    if exitGame in yesses:
+      quit()
   for key in keys:
     if playerKey == key:
       possibleKey = True
@@ -91,7 +97,10 @@ def playerInput(currentSystem, sector, parsecs, ship):
         print(ship)
       if key == '2': # map
         clear()
-        printMap(currentSystem, sector, parsecs)
+        printMap(currentSystem, sector, parsecs,ship['jump'])
+      if key == '3': # jump
+        jumpScreen(currentSystem, sector, ship)
+
   if possibleKey == False:
     print('invalid key',str(playerKey))
 
@@ -102,5 +111,44 @@ def systemDetails(system, sector):
     world = worldSearch(system)
   currentSystem = worldDetailed(world)
   return currentSystem
+
+def jumpScreen(currentSystem, sector, ship):
+  clear()
+  jumpRange = ship['jump']
+  reachableSystems = jumpSearch(currentSystem,jumpRange)
+  reachableWorlds = []
+  for rSystem in reachableSystems['Worlds']:
+    if rSystem['Name'] != currentSystem['WorldName']:
+      reachableWorlds.append(rSystem)
+  print('# You are in: ',currentSystem['WorldName'])
+  print('# You can jump to: ')
+  nearbySystems = {}
+  count = 0
+  for system in reachableWorlds:
+    letter = letters[count]
+    sys = system['Name']
+    uwp = system['UWP']
+    nearbySystems.update({letters[count] : system['Name']})
+    print(letter,'-',sys,':',uwp)
+    count += 1
+  selectedWorld = input('Select a world (letter) for more info\n> ')
+  selected = False
+  for system in nearbySystems:
+    if selectedWorld == system:
+      selected = True
+      world = worldSearch(nearbySystems[system], sector)
+      world = worldDetailed(world)
+  if selected == False:
+    print('not a valid selection')
+  else:
+    print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
+    print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
+    print('Remarks:',world['WorldRemarks'])
+    uwp = uwpTranslator(world['WorldUwp'])
+    for feature in uwp:
+      print(feature,'-',uwp[feature])
+
+  
+
 
 main(saveFile)

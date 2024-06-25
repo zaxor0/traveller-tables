@@ -16,7 +16,7 @@ letters = list(map(chr, range(97, 123)))
 clear = lambda: os.system('clear')
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 
-def printMap(world, sector, parsecs):
+def printMap(world, sector, parsecs, jumpRange):
   systemHexLocations, nearbyWorlds = nearbyPlanetsCoords(world, parsecs)
   zeroSystem = world['WorldName']
   zeroPlane = systemHexLocations[zeroSystem]
@@ -133,8 +133,24 @@ def printMap(world, sector, parsecs):
       print(' ',str(xCount),sep='',end='')
     xCount += 1
   print()
-
+  
+  possibleJumps(world, jumpRange, letterSystemArray)
   printWorldDetails(nearbySystems, sector)
+
+def possibleJumps(world, jumpRange, letterSystemArray):
+  reachableSystems = jumpSearch(world,jumpRange)
+  currentWorld = ''
+  reachableWorlds = ''
+  for letteredSystem in letterSystemArray:
+    letter = letteredSystem.split(' - ')[0]
+    lSystem = letteredSystem.split(' - ')[1]
+    for rSystem in reachableSystems['Worlds']:
+      if rSystem['Name'] == lSystem and rSystem['Name'] == world['WorldName']:
+        currentWorld = letteredSystem
+      elif rSystem['Name'] == lSystem and rSystem['Name'] != world['WorldName']:
+        reachableWorlds = reachableWorlds + letteredSystem + '    '
+  print('# You are in: ',currentWorld)
+  print('# You can jump to: ',reachableWorlds)
     
 def printWorldDetails(nearbySystems,sector):
   selectedWorld = input('Select a world (letter) for more info\n> ')
