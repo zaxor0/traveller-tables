@@ -44,17 +44,17 @@ starportQuality = {
  }
 
 worldSize = { 
-  '0' : {'size' : '800 km', 'gravity' : 'negligible' },
-  '1' : {'size' : '1,600 km', 'gravity' : '.05' },
-  '2' : {'size' : '3,200 km', 'gravity' : '.15' },
-  '3' : {'size' : '4,800 km', 'gravity' : '.25' },
-  '4' : {'size' : '6,400 km', 'gravity' : '.35' },
-  '5' : {'size' : '8,000 km', 'gravity' : '.45' },
-  '6' : {'size' : '9,600 km', 'gravity' : '.7' },
-  '7' : {'size' : '11,200 km', 'gravity' : '.9' },
-  '8' : {'size' : '12,800 km', 'gravity' : '1.' },
-  '9' : {'size' : '14,400 km', 'gravity' : '1.25' },
-  'A' : {'size' : '16,000 km', 'gravity' : '1.4' }
+  '0' : {'Size' : '800 km', 'Gravity' : 'negligible' },
+  '1' : {'Size' : '1,600 km', 'Gravity' : '.05' },
+  '2' : {'Size' : '3,200 km', 'Gravity' : '.15' },
+  '3' : {'Size' : '4,800 km', 'Gravity' : '.25' },
+  '4' : {'Size' : '6,400 km', 'Gravity' : '.35' },
+  '5' : {'Size' : '8,000 km', 'Gravity' : '.45' },
+  '6' : {'Size' : '9,600 km', 'Gravity' : '.7' },
+  '7' : {'Size' : '11,200 km', 'Gravity' : '.9' },
+  '8' : {'Size' : '12,800 km', 'Gravity' : '1.' },
+  '9' : {'Size' : '14,400 km', 'Gravity' : '1.25' },
+  'A' : {'Size' : '16,000 km', 'Gravity' : '1.4' }
   }
 
 worldAtmosphere = {
@@ -63,16 +63,16 @@ worldAtmosphere = {
   '2' : {'Atmosphere' : 'Very Thin, Tainted', 'Pressure' : '0.1 to 0.42', 'Required Gear' : 'Respirator, Filter'},
   '3' : {'Atmosphere' : 'Very Thin', 'Pressure' : '0.1 to 0.42', 'Required Gear' : 'Respirator'},
   '4' : {'Atmosphere' : 'Thin, Tainted', 'Pressure' : '0.43 to 0.7', 'Required Gear' : 'Filter'},
-  '5' : {'Atmosphere' : 'Thin', 'Pressure' : '0.43 to 0.7', 'Required Gear' : ''},
-  '6' : {'Atmosphere' : 'Standard', 'Pressure' : '0.71 to 1.49', 'Required Gear' : ''},
+  '5' : {'Atmosphere' : 'Thin', 'Pressure' : '0.43 to 0.7', 'Required Gear' : 'None'},
+  '6' : {'Atmosphere' : 'Standard', 'Pressure' : '0.71 to 1.49', 'Required Gear' : 'None'},
   '7' : {'Atmosphere' : 'Standard, Tainted', 'Pressure' : '0.7 to 1.49', 'Required Gear' : 'Filter'},
-  '8' : {'Atmosphere' : 'Dense', 'Pressure' : '1.5 to 2.49', 'Required Gear' : ''},
+  '8' : {'Atmosphere' : 'Dense', 'Pressure' : '1.5 to 2.49', 'Required Gear' : 'None'},
   '9' : {'Atmosphere' : 'Dense, Tainted', 'Pressure' : '1.5 to 2.49', 'Required Gear' : 'Filter'},
   'A' : {'Atmosphere' : 'Exotic', 'Pressure' : 'Varies', 'Required Gear' : 'Air Supply'},
   'B' : {'Atmosphere' : 'Corrosive', 'Pressure' : 'Varies', 'Required Gear' : 'Vacc Suit'},
   'C' : {'Atmosphere' : 'Insidious', 'Pressure' : 'Varies', 'Required Gear' : 'Vacc Suit'},
-  'D' : {'Atmosphere' : 'Dense, High', 'Pressure' : '2.5+', 'Required Gear' : ''},
-  'E' : {'Atmosphere' : 'Thin, Low', 'Pressure' : '0.5 or less', 'Required Gear' : ''},
+  'D' : {'Atmosphere' : 'Dense, High', 'Pressure' : '2.5+', 'Required Gear' : 'None'},
+  'E' : {'Atmosphere' : 'Thin, Low', 'Pressure' : '0.5 or less', 'Required Gear' : 'None'},
   'F' : {'Atmosphere' : 'Unusual', 'Pressure' : 'Varies', 'Required Gear' : 'Varies'}
   }
 
@@ -138,23 +138,23 @@ worldLawLevel = {
   '9' : { 'Weapons Banned' : 'All weapons', 'Armour' : 'All armour' }
 }
 
-techLevel = {
-  '0' : { 'Level' : 'Primitive', 'Description' : 'No technology. TL0 worlds have only discovered the simplest tools and principles and are on par with Earth’s Stone Age.' }
+worldTechLevel = {
+  '0' : { 'Level' : 'Primitive', 'Description' : 'No technology. TL0 worlds have only discovered the simplest tools and principles and are on par with Earth’s Stone Age.' },
   '1' : { 'Level' : 'Primitive', 'Description' : 'Roughly on a par with Bronze or Iron age technology. TL1 science is mostly superstition but manufacture weapons and work metals.' },
-  '2' : { 'Level' : 'Primitive)', 'Description' : 'Renaissance technology. TL2 brings with it a greater understanding of chemistry, physics, biology and astronomy as well as the scientific method.' },
-  '3' : { 'Level' : 'Primitive)', 'Description' : 'The advances of TL2 are now applied, bringing the germ of industrial revolution and steam power. Primitive firearms now dominate the battlefield. This is roughly comparable to the early 19th Century.' },
-  '4' : { 'Level' : 'Industrial)', 'Description' : 'The transition to industrial revolution is complete, bringing plastics, radio and other such inventions. Roughly comparable to the late 19th/early 20th Century.' },
-  '5' : { 'Level' : 'Industrial)', 'Description' : 'TL5 brings widespread electrification, telecommunications and internal combustion. At the high end of the TL, atomics and primitive computing appear. Roughly on a par with the mid-20th Century.' },
-  '6' : { 'Level' : 'Industrial)', 'Description' : 'TL6 brings the development of fission power and more advanced computing. Advances in materials technology and rocketry bring about the dawn of the space age.' },
-  '7' : { 'Level' : 'Pre-Stellar)', 'Description' : 'A pre-stellar society can reach orbit reliably and has telecommunications satellites. Computers and integrated circuits become ubiquitous. At the time of writing, Earth is currently somewhere between TL7 and TL8.' },
-  '8' : { 'Level' : 'Pre-Stellar)', 'Description' : 'At TL8, it is possible to reach other worlds in the same star system, although terraforming or full colonisation are not within the culture’s capacity. Permanent space habitats become possible. Fusion power becomes commercially viable.' },
-  '9' : { 'Level' : 'Pre-Stellar)', 'Description' : 'The defining element of TL9 is the development of gravity manipulation, which makes space travel vastly safer and faster. This research leads to development of the jump drive, which occurs near the end of this Tech Level. TL9 cultures can colonise other worlds, although travelling to a colony is often a one-way trip.' },
-  'A' : { 'Level' : 'Early Stellar)', 'Description' : 'With the advent of commonly available jump drives, nearby systems are opened up. Orbital habitats and factories become common. Interstellar travel and trade lead to an economic boom. Colonies become much more viable. ' },
-  'B' : { 'Level' : 'Early Stellar)', 'Description' : 'The first true artificial intelligences become possible, as computers are able to model synaptic networks. Grav- supported structures reach to the heavens. Jump-2 travel becomes possible, allowing easier travel beyond the one jump stellar mains ' },
-  'C' : { 'Level' : 'Average Stellar)', 'Description' : 'Planetwide weather control revolutionises terraforming and agriculture. Portable plasma weapons and carrier-mounted fusion guns make the battlefield untenable for unarmoured combatants. Jump-3 travel is developed.' },
-  'D' : { 'Level' : 'Average Stellar)', 'Description' : 'Battle dress appears on the battlefield in response to new weapons, heralding the pinnacle of personal armour and making infantry the equivalent of less advanced armoured vehicles. Cloning of body partsbecomes easy. Jump-4 travel appears.' },
-  'E' : { 'Level' : 'Average Stellar)', 'Description' : 'Fusion weapons become portable. Flying cities appear. Jump-5 drives are built.' },
-  'F' : { 'Level' : 'High Stellar)', 'Description' : 'Black globe generators suggest a new direction for defensive technologies, while the development of synthetic anagathics means that human lifespan is now vastly increas' }
+  '2' : { 'Level' : 'Primitive', 'Description' : 'Renaissance technology. TL2 brings with it a greater understanding of chemistry, physics, biology and astronomy as well as the scientific method.' },
+  '3' : { 'Level' : 'Primitive', 'Description' : 'The advances of TL2 are now applied, bringing the germ of industrial revolution and steam power. Primitive firearms now dominate the battlefield. This is roughly comparable to the early 19th Century.' },
+  '4' : { 'Level' : 'Industrial', 'Description' : 'The transition to industrial revolution is complete, bringing plastics, radio and other such inventions. Roughly comparable to the late 19th/early 20th Century.' },
+  '5' : { 'Level' : 'Industrial', 'Description' : 'TL5 brings widespread electrification, telecommunications and internal combustion. At the high end of the TL, atomics and primitive computing appear. Roughly on a par with the mid-20th Century.' },
+  '6' : { 'Level' : 'Industrial', 'Description' : 'TL6 brings the development of fission power and more advanced computing. Advances in materials technology and rocketry bring about the dawn of the space age.' },
+  '7' : { 'Level' : 'Pre-Stellar', 'Description' : 'A pre-stellar society can reach orbit reliably and has telecommunications satellites. Computers and integrated circuits become ubiquitous. At the time of writing, Earth is currently somewhere between TL7 and TL8.' },
+  '8' : { 'Level' : 'Pre-Stellar', 'Description' : 'At TL8, it is possible to reach other worlds in the same star system, although terraforming or full colonisation are not within the culture’s capacity. Permanent space habitats become possible. Fusion power becomes commercially viable.' },
+  '9' : { 'Level' : 'Pre-Stellar', 'Description' : 'The defining element of TL9 is the development of gravity manipulation, which makes space travel vastly safer and faster. This research leads to development of the jump drive, which occurs near the end of this Tech Level. TL9 cultures can colonise other worlds, although travelling to a colony is often a one-way trip.' },
+  'A' : { 'Level' : 'Early Stellar', 'Description' : 'With the advent of commonly available jump drives, nearby systems are opened up. Orbital habitats and factories become common. Interstellar travel and trade lead to an economic boom. Colonies become much more viable. ' },
+  'B' : { 'Level' : 'Early Stellar', 'Description' : 'The first true artificial intelligences become possible, as computers are able to model synaptic networks. Grav- supported structures reach to the heavens. Jump-2 travel becomes possible, allowing easier travel beyond the one jump stellar mains ' },
+  'C' : { 'Level' : 'Average Stellar', 'Description' : 'Planetwide weather control revolutionises terraforming and agriculture. Portable plasma weapons and carrier-mounted fusion guns make the battlefield untenable for unarmoured combatants. Jump-3 travel is developed.' },
+  'D' : { 'Level' : 'Average Stellar', 'Description' : 'Battle dress appears on the battlefield in response to new weapons, heralding the pinnacle of personal armour and making infantry the equivalent of less advanced armoured vehicles. Cloning of body partsbecomes easy. Jump-4 travel appears.' },
+  'E' : { 'Level' : 'Average Stellar', 'Description' : 'Fusion weapons become portable. Flying cities appear. Jump-5 drives are built.' },
+  'F' : { 'Level' : 'High Stellar', 'Description' : 'Black globe generators suggest a new direction for defensive technologies, while the development of synthetic anagathics means that human lifespan is now vastly increas' }
 }
 
 # 2d6 home brew

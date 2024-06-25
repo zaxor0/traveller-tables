@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
+from tables import *
+
 import json
 import requests
 import sys
 import time
 
 def worldSearch(world, sectorName=False):
-  print('### Loading data from travellermap.com')
+  #print('### Loading data from travellermap.com')
   if sectorName:
     sectorName = sectorName.replace(' ','%20')
     query = str(world + "%20in:" + sectorName)
@@ -115,5 +117,35 @@ def travellerMap(world):
   url = 'https://travellermap.com/go/' + sectorName + '/' + worldHex 
   return url
 
+def remarksTranslator(remarks):
+  print('translate')
 
-def uwpTranslator(uwp)
+def uwpTranslator(uwp):
+  starport = starportQuality[uwp[0]]
+  if starport['Quality'] == 'No Starport':
+    starport = str('None')
+  else:
+    starport = str(
+      starport['Quality'] + 
+     '\n  Berthing Cost - ' + starport['Berthing Cost'] +
+     '\n  Fuel Available - ' + starport['Fuel'] + 
+     '\n  Facilities - ' + starport['Facilities'] +
+     '\n  Bases - ' + starport['Bases'] )
+  size = worldSize[uwp[1]]
+  atmo = worldAtmosphere[uwp[2]]
+  hydro = worldHydrographics[uwp[3]]
+  pop = worldPopulation[uwp[4]]
+  gov = worldGovernment[uwp[5]]
+  law = worldLawLevel[uwp[6]]
+  tech = worldTechLevel[uwp[8]]
+  description = {
+    'Starport Quality' : starport,
+    'World Size' : str(size['Size'] + ' diameter with gravity at ' + size['Gravity']),
+    'Atmosphere' : str(atmo['Atmosphere'] + ', Pressure: ' + atmo['Pressure'] + ', Required gear: ' + atmo['Required Gear']),
+    'Hydrographics' : str(hydro['Hydrographic Percentage'] + ' water coverage, ' + hydro['Description']),
+    'Population' : pop['Inhabitants'],
+    'Government' : gov['Government Type'],
+    'Law Level' : str('Weapons banned - ' + law['Weapons Banned']),
+    'Tech Level' : str(tech['Level'] + ' - ' + tech['Description'])
+    }
+  return description

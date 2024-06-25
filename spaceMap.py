@@ -145,6 +145,9 @@ def printWorldDetails(nearbySystems,sector):
   print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
   print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
   print('Remarks:',world['WorldRemarks'])
+  uwp = uwpTranslator(world['WorldUwp'])
+  for feature in uwp:
+    print(feature,'-',uwp[feature])
 
 
 def diceRoll(dieCount,dieSides):
