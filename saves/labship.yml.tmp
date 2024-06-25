@@ -1,0 +1,15 @@
+crew:
+- pilot
+- astrogator
+- engineer
+- marine
+- steward
+location:
+  sector: Iphigenaia
+  system: Orvadu
+ship:
+  cost: 58871600
+  hull: 360
+  jump: 2
+  thrust: 2
+  type: lab ship

@@ -36,16 +36,17 @@ nos    = ['No','no','N','n','Nope','nope','Nah','nah']
 ship = {}
 
 def main(saveFile): 
-  saveFile = loadingScreen(saveFile)
+  saveFile, saveFileName = loadingScreen(saveFile)
   saveFile = loadSave(saveFile)
-  system = saveFile['location']['system']
-  sector = saveFile['location']['sector']
-  ship = saveFile['ship'] 
-  currentSystem = systemDetails(system,sector) 
-  currentSystemName = currentSystem['WorldName']
   gameActive = True
   while gameActive == True:
-    playerInput(currentSystem, sector, parsecs, ship)
+    system = saveFile['location']['system']
+    sector = saveFile['location']['sector']
+    ship = saveFile['ship'] 
+    currentSystem = systemDetails(system,sector) 
+    currentSystemName = currentSystem['WorldName']
+    saveFile = playerInput(currentSystem, sector, parsecs, ship, saveFile)
+    autoSave(saveFileName, saveFile)
 
 def loadSave(saveFile):
   print('...loading',str(saveFile))
@@ -54,10 +55,17 @@ def loadSave(saveFile):
     saveFile = yaml.safe_load(file)
   return saveFile
 
+def autoSave(fileName, saveFile):
+  tmpSaveFileName = fileName + '.tmp'
+  yamlOutput = yaml.dump(saveFile)
+  print(yamlOutput)
+  with open(tmpSaveFileName, 'w') as file:
+    file.write(yamlOutput)
+
 def loadingScreen(saveFile):
   clear()
-  print('\n\n\n\n\tWelcome Traveller!')
-  input("\n\n\t ... Enter any key to continue ... ")
+  print('\n\n\nWelcome Traveller!')
+  input("\n\n... Enter any key to continue ... ")
   if saveFile == False:
     loadGame = input('Do you want to load a saved game?\n> ')
     if loadGame in yesses:
@@ -77,10 +85,11 @@ def loadingScreen(saveFile):
           selectedGame = True
         except:
           print('not a valid file')
-  saveFile = saveDir + saveFile
-  return saveFile
+    saveFile = saveDir + saveFile
+  saveFileName = saveFile
+  return saveFile, saveFileName
 
-def playerInput(currentSystem, sector, parsecs, ship):
+def playerInput(currentSystem, sector, parsecs, ship, saveFile):
   print('\nPress a key',keys)
   playerKey = getch.getch()
   possibleKey = False
@@ -99,10 +108,12 @@ def playerInput(currentSystem, sector, parsecs, ship):
         clear()
         printMap(currentSystem, sector, parsecs,ship['jump'])
       if key == '3': # jump
-        jumpScreen(currentSystem, sector, ship)
+        saveFile = jumpScreen(currentSystem, sector, ship, saveFile)
 
   if possibleKey == False:
     print('invalid key',str(playerKey))
+
+  return saveFile
 
 def systemDetails(system, sector):
   if sector:
@@ -112,7 +123,7 @@ def systemDetails(system, sector):
   currentSystem = worldDetailed(world)
   return currentSystem
 
-def jumpScreen(currentSystem, sector, ship):
+def jumpScreen(currentSystem, sector, ship, saveFile):
   clear()
   jumpRange = ship['jump']
   reachableSystems = jumpSearch(currentSystem,jumpRange)
@@ -148,6 +159,11 @@ def jumpScreen(currentSystem, sector, ship):
     for feature in uwp:
       print(feature,'-',uwp[feature])
 
+    jumpQuestion = '\nDo you want to jump to ' + world['WorldName'] + '?\n> '
+    jump = input(jumpQuestion)
+    if jump in yesses:
+      saveFile.update({'location' : { 'system' : world['WorldName'], 'sector' : world['SectorName'] }})
+      return saveFile
   
 
 
