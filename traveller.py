@@ -3,6 +3,7 @@
 from spaceMap import *
 from tables import *
 from possibleWorlds import *
+from trade import *
 
 import os
 
@@ -19,7 +20,7 @@ worldName = ""
 parsecs = 5
 
 # player input options
-keys = { '1' : 'ship details', '2' : 'map view' , '3' : 'Jump' , 'ESC' : 'Quit'}
+keys = { '1' : 'ship details', '2' : 'map view' , '3' : 'Jump' , '4' : 'Trade', 'ESC' : 'Quit'}
 
 # arguments, only accept save files
 try:
@@ -118,6 +119,8 @@ def playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName):
         printMap(currentSystem, sector, parsecs,ship['jump'])
       if key == '3': # jump
         saveFile = jumpScreen(currentSystem, sector, ship, saveFile)
+      if key == '4': # trade 
+        printTradeCodes(currentSystem, sector, ship)
 
   if possibleKey == False:
     print('invalid key',str(playerKey))
@@ -174,6 +177,42 @@ def jumpScreen(currentSystem, sector, ship, saveFile):
       saveFile.update({'location' : { 'system' : world['WorldName'], 'sector' : world['SectorName'] }})
       return saveFile
   
+def printTradeCodes(currentSystem, sector, ship):
+  clear()
+  jumpRange = ship['jump']
+  reachableSystems = jumpSearch(currentSystem,jumpRange)
+  reachableWorlds = []
+  for rSystem in reachableSystems['Worlds']:
+    if rSystem['Name'] != currentSystem['WorldName']:
+      reachableWorlds.append(rSystem)
+  print('# You are in: ',currentSystem['WorldName'])
+  uwp = uwpTranslator(currentSystem['WorldUwp'])
+  codes = calcTradeCodes(currentSystem['WorldName'],currentSystem['SectorName'])
+  print(codes)
+#  nearbySystems = {}
+#  count = 0
+#  for system in reachableWorlds:
+#    letter = letters[count]
+#    sys = system['Name']
+#    uwp = system['UWP']
+#    nearbySystems.update({letters[count] : system['Name']})
+#    print(letter,'-',sys,':',uwp)
+#    count += 1
+#  selectedWorld = input('Select a world (letter) for more info\n> ')
+#  selected = False
+#  for system in nearbySystems:
+#    if selectedWorld == system:
+#      selected = True
+#      world = worldSearch(nearbySystems[system], sector)
+#      world = worldDetailed(world)
+#  if selected == False:
+#    print('not a valid selection')
+#  else:
+#    print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
+#    print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
+#    print('Remarks:',world['WorldRemarks'])
+#    uwp = uwpTranslator(world['WorldUwp'])
+ 
 
 
 main(saveFile)
