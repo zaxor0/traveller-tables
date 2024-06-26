@@ -45,7 +45,7 @@ def main(saveFile):
     ship = saveFile['ship'] 
     currentSystem = systemDetails(system,sector) 
     currentSystemName = currentSystem['WorldName']
-    saveFile = playerInput(currentSystem, sector, parsecs, ship, saveFile)
+    saveFile = playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName)
     autoSave(saveFileName, saveFile)
 
 def loadSave(saveFile):
@@ -58,8 +58,13 @@ def loadSave(saveFile):
 def autoSave(fileName, saveFile):
   tmpSaveFileName = fileName + '.tmp'
   yamlOutput = yaml.dump(saveFile)
-  print(yamlOutput)
   with open(tmpSaveFileName, 'w') as file:
+    file.write(yamlOutput)
+
+def saveGame(fileName, saveFile):
+  saveFileName = fileName
+  yamlOutput = yaml.dump(saveFile)
+  with open(saveFileName, 'w') as file:
     file.write(yamlOutput)
 
 def loadingScreen(saveFile):
@@ -76,8 +81,9 @@ def loadingScreen(saveFile):
         saves = os.listdir(saveDir)
         count = 0
         for file in saves:
-          print(str(count + 1),'-',file)
-          count += 1
+          if file.endswith('.yml'):
+            print(str(count + 1),'-',file)
+            count += 1
         selectedSaveFile = int(input('Which save file do you want to load?\n> '))
         print(selectedSaveFile)
         try:
@@ -89,7 +95,7 @@ def loadingScreen(saveFile):
   saveFileName = saveFile
   return saveFile, saveFileName
 
-def playerInput(currentSystem, sector, parsecs, ship, saveFile):
+def playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName):
   print('\nPress a key',keys)
   playerKey = getch.getch()
   possibleKey = False
@@ -97,6 +103,9 @@ def playerInput(currentSystem, sector, parsecs, ship, saveFile):
     possibleKey = True
     exitGame = input('\nAre you sure you want to quit?\n> ')
     if exitGame in yesses:
+      saveOrNot = input('\nDo you want to save?\n> ')
+      if saveOrNot in yesses:
+        saveGame(saveFileName, saveFile)
       quit()
   for key in keys:
     if playerKey == key:

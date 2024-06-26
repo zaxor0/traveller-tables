@@ -1,15 +1,15 @@
-location :
-  system : "Hosto"
-  sector : "Iphigenaia"
-ship :
-  type : "lab ship"
-  hull : 360
-  jump : 2
-  thrust : 2 
-  cost : 58871600 
-crew : 
-  - "pilot"
-  - "astrogator"
-  - "engineer"
-  - "marine"
-  - "steward"
+crew:
+- pilot
+- astrogator
+- engineer
+- marine
+- steward
+location:
+  sector: Iphigenaia
+  system: Falga
+ship:
+  cost: 58871600
+  hull: 360
+  jump: 2
+  thrust: 2
+  type: lab ship
