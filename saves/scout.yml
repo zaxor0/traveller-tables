@@ -1,18 +1,31 @@
+credits: 188680000
 crew:
 - pilot
 - astrogator
 - engineer
+day: 0
 location:
-  sector: deneb 
-  system: imone
+  sector: Deneb
+  system: Imone
 ship:
   armor:
     armour: 4
     type: crystaliron
-  cargo: 
+  cargo:
     max: 12
     stored:
-      Biochemicals: 1
+      Advanced Electronics:
+        cost: 75000
+        tons: 5
+      Biochemicals:
+        cost: 0
+        tons: 1
+      Cybernetics:
+        cost: 34000
+        tons: 2
+      Illegal Cybernetics:
+        cost: 32000
+        tons: 2
   cost: 36940500
   fuel:
     operation-window: 12w

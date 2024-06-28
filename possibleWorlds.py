@@ -8,13 +8,9 @@ import sys
 import time
 
 def worldSearch(world, sectorName=False):
-  #print('### Loading data from travellermap.com')
-  if sectorName:
-    sectorName = sectorName.replace(' ','%20')
-    query = str(world + "%20in:" + sectorName)
-    searchUrl = 'https://travellermap.com/api/search?q="' + query
-  else:
-    searchUrl = 'https://travellermap.com/api/search?q=exact:' + world 
+  # first try world name 
+  world = world.replace(' ','%20')
+  searchUrl = 'https://travellermap.com/api/search?q=' + world 
   response = requests.get(searchUrl)
   data = json.loads(response.text)
   results = []
@@ -23,21 +19,37 @@ def worldSearch(world, sectorName=False):
       results.append(result['World'])
     except:
       pass
+  print(results)
   if len(results) > 1:
-    selected = False
-    while selected == False:
-      position = 0
-      print('Possible Sectors:')
-      for world in results:
-        print(' ',str(position + 1),'-',world['Sector'])
-        position += 1
-      selection = int(input('Which sector are you in? ')) - 1
-      try:
-        world = results[selection]
-        selected = True
-      except:
-        print('not a valid number')
-    return world
+    # if we have more than 1 result, try again with the sector to be more specific
+    if sectorName:
+      sectorName = sectorName.replace(' ','%20')
+      query = str(world + "%20in:" + sectorName)
+      searchUrl = 'https://travellermap.com/api/search?q="' + query
+      response = requests.get(searchUrl)
+      data = json.loads(response.text)
+      results = []
+      for result in data['Results']['Items']:
+        try:
+          results.append(result['World'])
+        except:
+          pass
+      return results[0]
+    else:
+      selected = False
+      while selected == False:
+        position = 0
+        print('Possible Sectors:')
+        for world in results:
+          print(' ',str(position + 1),'-',world['Sector'])
+          position += 1
+        selection = int(input('Which sector are you in? ')) - 1
+        try:
+          world = results[selection]
+          selected = True
+        except:
+          print('not a valid number')
+      return world
   else:
     return results[0]
 
@@ -146,6 +158,6 @@ def uwpTranslator(uwp):
     'Population' : pop['Inhabitants'],
     'Government' : gov['Government Type'],
     'Law Level' : str('Weapons banned - ' + law['Weapons Banned']),
-    'Tech Level' : str(tech['Level'] + ' - ' + tech['Description'])
+    'Tech Level' : str(tech['Level'] + '\n  ' + tech['Description'])
     }
   return description
