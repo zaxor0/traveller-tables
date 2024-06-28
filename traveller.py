@@ -8,6 +8,7 @@ from trade import *
 import os
 
 import datetime
+import locale
 import math
 import random
 import sys
@@ -30,6 +31,10 @@ except:
 
 clear = lambda: os.system('clear')
 
+try:
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8') #use locale.format for commafication
+except locale.Error:
+    locale.setlocale(locale.LC_ALL, '') #set to default locale (works on windows)
 
 letters = list(map(chr, range(97, 123)))
 yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
@@ -178,41 +183,112 @@ def jumpScreen(currentSystem, sector, ship, saveFile):
       return saveFile
   
 def printTradeCodes(currentSystem, sector, ship):
-  clear()
   jumpRange = ship['jump']
   reachableSystems = jumpSearch(currentSystem,jumpRange)
   reachableWorlds = []
   for rSystem in reachableSystems['Worlds']:
     if rSystem['Name'] != currentSystem['WorldName']:
       reachableWorlds.append(rSystem)
-  print('# You are in: ',currentSystem['WorldName'])
   uwp = uwpTranslator(currentSystem['WorldUwp'])
+  population = currentSystem['WorldUwp'][4]
   codes = calcTradeCodes(currentSystem['WorldName'],currentSystem['SectorName'])
-  print(codes)
-#  nearbySystems = {}
-#  count = 0
-#  for system in reachableWorlds:
-#    letter = letters[count]
-#    sys = system['Name']
-#    uwp = system['UWP']
-#    nearbySystems.update({letters[count] : system['Name']})
-#    print(letter,'-',sys,':',uwp)
-#    count += 1
-#  selectedWorld = input('Select a world (letter) for more info\n> ')
-#  selected = False
-#  for system in nearbySystems:
-#    if selectedWorld == system:
-#      selected = True
-#      world = worldSearch(nearbySystems[system], sector)
-#      world = worldDetailed(world)
-#  if selected == False:
-#    print('not a valid selection')
-#  else:
-#    print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
-#    print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
-#    print('Remarks:',world['WorldRemarks'])
-#    uwp = uwpTranslator(world['WorldUwp'])
- 
+  header = '# You are in: ' + str(currentSystem['WorldName']) + ' # has trade codes: ' + str(codes)
 
+  # create purchaseable goods dict
+  goodsPurchase = {}
+  count = 0
+  for code in codes:
+    for goods in tradeGoods:
+      if code in tradeGoods[goods]['availability']:
+        letter = letters[count]
+        namedGood = tradeGoods[goods]['type']
+        tonsAvail, perTonBuy = goodsAvailable(namedGood, population, codes)
+        purchasePrice = int(tonsAvail * perTonBuy)
+        goodsPurchase.update( { namedGood : { 'letter' : letter, 'tons' : tonsAvail, 'purchase' : purchasePrice } })
+        count += 1
+
+  # create sellable goods dict
+  goodsToSell = {}
+  count = 0
+  cargo = ship['cargo']['stored']
+  for good in cargo:
+    letter = letters[count]
+    tonsAvail = cargo[good]
+    perTonSell = sellGoods(good, codes)
+    sellPrice = int(tonsAvail * perTonSell)
+    goodsToSell.update( { good : { 'letter' : letter, 'tons' : tonsAvail, 'sell' : sellPrice } })
+    count += 1
+
+  trading = True
+  while trading:
+    # print out
+    clear()
+    print(header)
+    print('---[ Goods for Purchase (p) ]---')
+    goodStrings = []
+    for good in goodsPurchase:
+      goodStrings.append(good)
+    
+    rows = 5
+    columns = int(len(goodStrings) / rows)
+    if len(goodStrings) % rows != 0:
+      columns += 1
+    for i in range(rows):
+      pos = i
+      rowString = ' '
+      for j in range(columns):
+        if len(goodStrings[pos]) > 22: 
+          tab = '\t'
+        elif len(goodStrings[pos]) < 15:
+          tab = '\t\t\t'
+        else:
+          tab = '\t\t'
+        rowString = rowString + goodStrings[pos] + tab
+        try:
+          goodStrings[pos + rows]
+          pos = pos + rows
+        except:
+          break
+      print(rowString)
+
+    print('\n---[   Goods to Sell  (s)   ]---')
+    for good in goodsToSell:
+      print(good)
+  
+    maxCargo = ship['cargo']['max']
+    usedCargo = 0
+    for storedGood in ship['cargo']['stored']:
+      tonnage = ship['cargo']['stored'][storedGood]
+      usedCargo += tonnage 
+    availCargo = maxCargo - usedCargo
+    print('\nYou currently have',maxCargo,'max and',availCargo,'available')
+  
+    print('\nWould you like to: (P) purchase a good, (S) view offers on your goods, (Q) Return to main') 
+    playerKey = getch.getch()
+    if playerKey in [ 'p', 's', 'q']:
+      if playerKey == 'p':
+        clear()
+        print(header)
+        print('Goods Availble:')
+        for good in goodsPurchase:
+          letter = goodsPurchase[good]['letter'] 
+          tonsAvail = goodsPurchase[good]['tons'] 
+          purchasePrice = goodsPurchase[good]['purchase'] 
+          if len(good) >= 26:
+            tabs = ''
+          elif len(good) >= 19 and len(good) < 26:
+            tabs = '\t'
+          elif len(good) >=11 and len(good) < 19:
+            tabs = '\t\t'
+          elif len(good) < 11:
+            tabs = '\t\t\t'
+          print(letter,'-',good,tabs,tonsAvail,'tons \t\t Cr',locale.format_string('%d',purchasePrice,True))
+        print('Which good would you like to purchase?')
+        selectedGood = getch.getch()
+      if playerKey == 's':
+        print('sale menu place holder')
+      if playerKey == 'q':
+        trading = False
+  
 
 main(saveFile)

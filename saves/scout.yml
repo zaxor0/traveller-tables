@@ -1,0 +1,26 @@
+crew:
+- pilot
+- astrogator
+- engineer
+location:
+  sector: deneb 
+  system: imone
+ship:
+  armor:
+    armour: 4
+    type: crystaliron
+  cargo: 
+    max: 12
+    stored:
+      Biochemicals: 1
+  cost: 36940500
+  fuel:
+    operation-window: 12w
+    size: J-2
+  hull:
+    points: 40
+    tonnage: 100
+    type: streamlined
+  jump: 2
+  thrust: 2
+  type: scout

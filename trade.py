@@ -64,10 +64,87 @@ def calcTradeCodes(system, sector):
   if (atmo in range(3,9) or atmo >= 13) and hydro >= 10:
     tradeCodes.append('Wa') # Waterworld
  
-  return tradeCodes
+  readableCodes = []
+  for code in tradeCodes:
+    readableCodes.append(readableTradeCodes[code]) 
+  return readableCodes
 
 # mgt2e 242 to 245
-def goodsAvailable(tradeCodes, population):
+def goodsAvailable(good, population, readableTradeCodes):
+  # gather trade good details
+  for dieVal in tradeGoods:
+    if tradeGoods[dieVal]['type'] == good:
+      tons = tradeGoods[dieVal]['tons'] 
+      price = tradeGoods[dieVal]['base price'] 
+      purchaseMods = tradeGoods[dieVal]['purchase DM'] 
+      saleMods = tradeGoods[dieVal]['sale DM'] 
+  
+  # calc tons available
+  if ' x ' in tons:
+    tonsDieCount = tons.split(' x ')[0]
+    tonsDieCount = int(tonsDieCount[:-1])
+    tonsMulti = int(tons.split(' x ')[1])
+  else:
+    tonsDieCount = tons
+    tonsDieCount = int(tonsDieCount[:-1])
+    tonsMulti = int(1)
+  tonsRoll = diceRoll(tonsDieCount, 6) 
+  tonsAvailable = tonsRoll * tonsMulti
+
+  ## calc purchase price
+  # inital 3d6 dice roll
+  basePurchaseRoll = diceRoll(3,6)
+  diceModTotal = 0
+  # add any DM from purchase DM column
+  for diceMod in purchaseMods: 
+    if diceMod in readableTradeCodes:
+      diceModTotal += purchaseMods[diceMod] 
+  # subtract any DM from the sale DM column
+  for diceMod in saleMods: 
+    if diceMod in readableTradeCodes:
+      diceModTotal -= saleMods[diceMod] 
+  # subtract suppliers/seller broker skill, default of 2 (this would be an NPC)
+  brokerSkill = 2
+  diceModTotal -= brokerSkill
+
+  modifiedResult =  basePurchaseRoll + diceModTotal
+  # modifiedPrice is in tables.py sourced from page 243 of mgt2e
+  purchasePrice = modifiedPrice[modifiedResult]['Purchase Price'] * price
+
+  return tonsAvailable, purchasePrice
+
+def sellGoods(good, readableTadecodes):
+  # gather trade good details
+  for dieVal in tradeGoods:
+    if tradeGoods[dieVal]['type'] == good:
+      price = tradeGoods[dieVal]['base price'] 
+      purchaseMods = tradeGoods[dieVal]['purchase DM'] 
+      saleMods = tradeGoods[dieVal]['sale DM'] 
+  
+  ## calc sale price
+  # inital 3d6 dice roll
+  basePurchaseRoll = diceRoll(3,6)
+  diceModTotal = 0
+  # subtract any DM from purchase DM column
+  for diceMod in purchaseMods: 
+    if diceMod in readableTradeCodes:
+      diceModTotal -= purchaseMods[diceMod] 
+  # add any DM from the sale DM column
+  for diceMod in saleMods: 
+    if diceMod in readableTradeCodes:
+      diceModTotal += saleMods[diceMod] 
+  # subtract suppliers/seller broker skill, default of 2 (this would be the PLAYER)
+  brokerSkill = 2
+  diceModTotal -= brokerSkill
+
+  modifiedResult =  basePurchaseRoll + diceModTotal
+  # modifiedPrice is in tables.py sourced from page 243 of mgt2e
+  sellPrice = modifiedPrice[modifiedResult]['Sale Price'] * price
+
+  return sellPrice
+
+
+
   # a planet has all its trade code goods AND common goods
   # additionally, it has "random goods" equal to the worlds population good
 
