@@ -3,10 +3,10 @@ crew:
 - pilot
 - astrogator
 - engineer
-day: 0
+day: 7
 location:
   sector: Deneb
-  system: Imone
+  system: Frisgar
 ship:
   armor:
     armour: 4

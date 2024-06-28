@@ -1,20 +1,14 @@
 #!/usr/bin/python3
 
+from mechanics import *
 from tables import *
 from possibleWorlds import *
 
 import datetime
 import math
 import os
-import random
 import sys
 import yaml
-
-# an array of letters
-letters = list(map(chr, range(97, 123)))
-  
-clear = lambda: os.system('clear')
-yesses = ['Yes','yes','Y','y','Ye','ye','ya','Ya','Yup','yup']
 
 def printMap(world, sector, parsecs, jumpRange):
   systemHexLocations, nearbyWorlds = nearbyPlanetsCoords(world, parsecs)
@@ -164,15 +158,3 @@ def printWorldDetails(nearbySystems,sector):
   uwp = uwpTranslator(world['WorldUwp'])
   for feature in uwp:
     print(feature,'-',uwp[feature])
-
-
-def diceRoll(dieCount,dieSides):
-  dieTotal = 0
-  for i in range(0,dieCount):
-    min = 1
-    max = dieSides
-    dieVal = random.randint(min,max)
-    dieTotal += dieVal
-  return(dieTotal)
-
-

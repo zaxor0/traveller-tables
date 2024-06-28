@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
+from mechanics import *
 from spaceMap import *
 from tables import *
 from possibleWorlds import *
+
+import getch
+import locale
 
 def calcTradeCodes(system, sector):
   world = worldSearch(system, sector)
@@ -143,9 +147,7 @@ def sellGoods(good, readableTadecodes):
 
   return sellPrice
 
-
-
-def printTradeCodes(currentSystem, sector, ship, saveFile):
+def tradeMenu(currentSystem, sector, ship, saveFile):
   jumpRange = ship['jump']
   reachableSystems = jumpSearch(currentSystem,jumpRange)
   reachableWorlds = []
@@ -328,6 +330,8 @@ def printTradeCodes(currentSystem, sector, ship, saveFile):
         input('\n press any key to continue')
       if playerKey == 'q':
         trading = False
+
+  return saveFile
 
 
 

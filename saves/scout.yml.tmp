@@ -1,12 +1,12 @@
-credits: 188716000
+credits: 188680000
 crew:
 - pilot
 - astrogator
 - engineer
-day: 0
+day: 7
 location:
   sector: Deneb
-  system: Imone
+  system: Frisgar
 ship:
   armor:
     armour: 4
@@ -22,6 +22,9 @@ ship:
         tons: 1
       Cybernetics:
         cost: 34000
+        tons: 2
+      Illegal Cybernetics:
+        cost: 32000
         tons: 2
   cost: 36940500
   fuel:

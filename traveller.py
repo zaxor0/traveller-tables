@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from mechanics import *
 from spaceMap import *
 from tables import *
 from possibleWorlds import *
@@ -10,7 +11,6 @@ import os
 import datetime
 import locale
 import math
-import random
 import sys
 import yaml
 import getch
@@ -45,12 +45,18 @@ def main(saveFile):
   saveFile, saveFileName = loadingScreen(saveFile)
   saveFile = loadSave(saveFile)
   gameActive = True
+  system = saveFile['location']['system']
+  sector = saveFile['location']['sector']
+  currentSystem = systemDetails(system,sector) 
+  currentSystemName = currentSystem['WorldName']
+  # main loop 
   while gameActive == True:
     system = saveFile['location']['system']
     sector = saveFile['location']['sector']
     ship = saveFile['ship'] 
-    currentSystem = systemDetails(system,sector) 
-    currentSystemName = currentSystem['WorldName']
+    if currentSystem['WorldName'] != system:
+      currentSystem = systemDetails(system,sector) 
+      currentSystemName = currentSystem['WorldName']
     saveFile = playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName)
     autoSave(saveFileName, saveFile)
 
@@ -125,7 +131,7 @@ def playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName):
       if key == '3': # jump
         saveFile = jumpScreen(currentSystem, sector, ship, saveFile)
       if key == '4': # trade 
-        printTradeCodes(currentSystem, sector, ship, saveFile)
+        saveFile = tradeMenu(currentSystem, sector, ship, saveFile)
 
   if possibleKey == False:
     print('invalid key',str(playerKey))
@@ -183,189 +189,4 @@ def jumpScreen(currentSystem, sector, ship, saveFile):
       saveFile.update({'location' : { 'system' : world['WorldName'], 'sector' : world['SectorName'] }})
       return saveFile
   
-def printTradeCodes(currentSystem, sector, ship, saveFile):
-  jumpRange = ship['jump']
-  reachableSystems = jumpSearch(currentSystem,jumpRange)
-  reachableWorlds = []
-  for rSystem in reachableSystems['Worlds']:
-    if rSystem['Name'] != currentSystem['WorldName']:
-      reachableWorlds.append(rSystem)
-  uwp = uwpTranslator(currentSystem['WorldUwp'])
-  population = currentSystem['WorldUwp'][4]
-  codes = calcTradeCodes(currentSystem['WorldName'],currentSystem['SectorName'])
-  header = '# You are in: ' + str(currentSystem['WorldName']) + ' # has trade codes: ' + str(codes)
-
-  # create purchaseable goods dict
-  goodsPurchase = {}
-  count = 0
-  for code in codes:
-    for goods in tradeGoods:
-      if code in tradeGoods[goods]['availability']:
-        letter = letters[count]
-        namedGood = tradeGoods[goods]['type']
-        tonsAvail, perTonBuy = goodsAvailable(namedGood, population, codes)
-        purchasePrice = int(tonsAvail * perTonBuy)
-        goodsPurchase.update( { namedGood : { 'letter' : letter, 'tons' : tonsAvail, 'purchase' : purchasePrice } })
-        count += 1
-
-  # create sellable goods dict
-  goodsToSell = {}
-  count = 0
-  cargo = ship['cargo']['stored']
-  for good in cargo:
-    letter = letters[count]
-    tonsAvail = cargo[good]['tons']
-    originalCost = cargo[good]['cost']
-    perTonSell = sellGoods(good, codes)
-    sellPrice = int(tonsAvail * perTonSell)
-    goodsToSell.update( { good : { 'letter' : letter, 'tons' : tonsAvail, 'sell' : sellPrice, 'cost' : originalCost } })
-    count += 1
-  nextAvailLetter = count
-
-  trading = True
-  while trading:
-    money = saveFile['credits']
-
-    # print out
-    clear()
-    print(header)
-    print('---[ Goods for Purchase (p) ]---')
-    goodStrings = []
-    for good in goodsPurchase:
-      goodStrings.append(good)
-    
-    rows = 5
-    columns = int(len(goodStrings) / rows)
-    if len(goodStrings) % rows != 0:
-      columns += 1
-    for i in range(rows):
-      pos = i
-      rowString = ' '
-      for j in range(columns):
-        if len(goodStrings[pos]) > 22: 
-          tab = '\t'
-        elif len(goodStrings[pos]) < 15:
-          tab = '\t\t\t'
-        else:
-          tab = '\t\t'
-        rowString = rowString + goodStrings[pos] + tab
-        try:
-          goodStrings[pos + rows]
-          pos = pos + rows
-        except:
-          break
-      print(rowString)
-
-    print('\n---[   Goods to Sell  (s)   ]---')
-    for good in goodsToSell:
-      print(good)
-  
-    # recalc cargo space
-    maxCargo = ship['cargo']['max']
-    availCargo = 0
-    usedCargo = 0
-    for storedGood in ship['cargo']['stored']:
-      tonnage = ship['cargo']['stored'][storedGood]['tons']
-      usedCargo += tonnage 
-    availCargo = maxCargo - usedCargo
-    print('\nYou currently have',maxCargo,'max and',availCargo,'available')
-  
-    print('\nWould you like to: (P) purchase a good, (S) view offers on your goods, (Q) Return to main') 
-    playerKey = getch.getch()
-    if playerKey in [ 'p', 's', 'q']:
-      if playerKey == 'p':
-        clear()
-        print(header)
-        print('Goods Availble for Purchase:')
-        for good in goodsPurchase:
-          letter = goodsPurchase[good]['letter'] 
-          tonsAvail = goodsPurchase[good]['tons'] 
-          price = goodsPurchase[good]['purchase'] 
-          stringPrice = str('Cr ' + locale.format_string('%d',price,True))
-          if len(good) >= 26:
-            tabs = ''
-          elif len(good) >= 19 and len(good) < 26:
-            tabs = '\t'
-          elif len(good) >=11 and len(good) < 19:
-            tabs = '\t\t'
-          elif len(good) < 11:
-            tabs = '\t\t\t'
-          print(letter,'-',good,tabs,tonsAvail,'tons \t\t', stringPrice)
-        print('Which good would you like to purchase?')
-        selectedGood = getch.getch()
-        message = 'That is not a good you can purchase'
-        for good in goodsPurchase:
-          letter = goodsPurchase[good]['letter'] 
-          tons = goodsPurchase[good]['tons'] 
-          price = goodsPurchase[good]['purchase'] 
-          stringPrice = str('Cr ' + locale.format_string('%d',price,True))
-          if selectedGood == letter:
-            if tons <= availCargo and price <= money:
-              purchaseMade = True
-              goodsPurchase.pop(good)
-              message = 'Congratulations you purchased ' + str(tons) + ' of '  + good + ' for a total of ' + stringPrice
-              if good in ship['cargo']['stored']:
-                origTons = ship['cargo']['stored'][good]['tons']
-                origCost = ship['cargo']['stored'][good]['cost']
-                cost = int((origCost / origTons) + (price / tons))
-                tons = tons + origTons
-              else:
-                cost = price
-              saveFile['credits'] =  money - price
-              ship['cargo']['stored'].update( { good : { 'tons' : tons, 'cost' : cost }} )
-              goodsToSell.update( { good : { 'letter' : letters[nextAvailLetter], 'tons' : tons, 'sell' : price, 'cost' : cost } })
-              nextAvailLetter +=1
-              #goodsPurchase.pop(good) 
-            elif tons > availCargo and price <= money:
-              message = 'You do not have enough cargo space'
-            elif tons <= availCargo and price > money:
-              message = 'You do not have enough credits'
-            elif tons > availCargo and price > money:
-              message = 'You do not have enough credits and you do not have enough cargo space'
-            break
-        print(message)
-        input('\n press any key to continue')
-      if playerKey == 's':
-        clear()
-        print(header)
-        print('Goods Available to Sell:')
-        for good in goodsToSell:
-          letter = goodsToSell[good]['letter'] 
-          tonsAvail = goodsToSell[good]['tons'] 
-          sellPrice = goodsToSell[good]['sell'] 
-          origCost = ship['cargo']['stored'][good]['cost']
-          stringPrice = str('Cr ' + locale.format_string('%d',sellPrice,True))
-          if len(good) >= 26:
-            tabs = ''
-          elif len(good) >= 19 and len(good) < 26:
-            tabs = '\t'
-          elif len(good) >=11 and len(good) < 19:
-            tabs = '\t\t'
-          elif len(good) < 11:
-            tabs = '\t\t\t'
-          print(letter,'-',good,tabs,tonsAvail,'tons\t',stringPrice,' - cost of',origCost)
-        print('Which good would you like to sell?')
-        selectedGood = getch.getch()
-        message = 'That is not a good you can purchase'
-        for good in goodsToSell:
-          letter = goodsToSell[good]['letter'] 
-          tonsAvail = goodsToSell[good]['tons'] 
-          sellPrice = goodsToSell[good]['sell'] 
-          origCost = ship['cargo']['stored'][good]['cost']
-          profit = sellPrice - origCost
-          if selectedGood == letter:
-            sellString = 'Are you sure you want to sell ' + good + ' for ' + str(sellPrice) + '? Profit of ' + str(profit) +'\n> '
-            toSell = input(sellString)
-            if toSell in yesses:
-              ship['cargo']['stored'].pop(good)
-              goodsToSell.pop(good)
-              newMoney = money + sellPrice
-              print('Credits',str(money),'->',str(newMoney))
-              saveFile['credits'] =  newMoney
-            break
-        input('\n press any key to continue')
-      if playerKey == 'q':
-        trading = False
-  
-
 main(saveFile)
