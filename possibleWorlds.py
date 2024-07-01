@@ -19,7 +19,6 @@ def worldSearch(world, sectorName=False):
       results.append(result['World'])
     except:
       pass
-  print(results)
   if len(results) > 1:
     # if we have more than 1 result, try again with the sector to be more specific
     if sectorName:

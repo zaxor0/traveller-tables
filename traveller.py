@@ -3,17 +3,19 @@
 from mechanics import *
 from spaceMap import *
 from tables import *
+from mgt2e import *
 from possibleWorlds import *
 from trade import *
 
 import os
 
 import datetime
+import getch
 import locale
 import math
 import sys
+import time
 import yaml
-import getch
 
 # variables
 saveDir = 'saves/'
@@ -45,19 +47,10 @@ def main(saveFile):
   saveFile, saveFileName = loadingScreen(saveFile)
   saveFile = loadSave(saveFile)
   gameActive = True
-  system = saveFile['location']['system']
-  sector = saveFile['location']['sector']
-  currentSystem = systemDetails(system,sector) 
-  currentSystemName = currentSystem['WorldName']
   # main loop 
   while gameActive == True:
-    system = saveFile['location']['system']
-    sector = saveFile['location']['sector']
-    ship = saveFile['ship'] 
-    if currentSystem['WorldName'] != system:
-      currentSystem = systemDetails(system,sector) 
-      currentSystemName = currentSystem['WorldName']
-    saveFile = playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName)
+    printMainView(saveFile)
+    saveFile = playerInput(saveFile)
     autoSave(saveFileName, saveFile)
 
 def loadSave(saveFile):
@@ -107,8 +100,38 @@ def loadingScreen(saveFile):
   saveFileName = saveFile
   return saveFile, saveFileName
 
-def playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName):
-  print('\nPress a key',keys)
+def printMainView(saveFile):
+  clear()
+  sector = saveFile['location']['sector']
+  system = saveFile['location']['system']
+  ship = saveFile['ship']['type']
+  cargoMax = str(saveFile['ship']['cargo']['max'])
+  cargoUsed = 0
+  for cargo in saveFile['ship']['cargo']['stored']:
+    cargoUsed =  cargoUsed + saveFile['ship']['cargo']['stored'][cargo]['tons']
+  cargoUsed = str(cargoUsed)
+  print('[   key |   Action     ][   Game Status           ]')
+  print('|                      ||                         |')
+  print('|    1. Ship Details   || Sector:',sector,'|')
+  print('|    2. Star Map       || System:',system,'|')
+  print('|    3. System Jump    || Ship:',ship,'|')
+  print('|    4. Trade          || Cargo:',cargoUsed,'/',cargoMax,'|')
+  print('|                      ||                         |')
+  print('|                      ||                         |')
+  print('|                      ||                         |')
+  print('|                      ||                         |')
+  print('|                      ||                         |')
+  print('[                      ||                         ]')
+  print('   press a key (1,2,3,4)')
+  
+#def playerInput(currentSystem, sector, parsecs, ship, saveFile, saveFileName):
+def playerInput(saveFile):
+  system = saveFile['location']['system']
+  sector = saveFile['location']['sector']
+  ship = saveFile['ship'] 
+  currentSystem = systemDetails(system,sector) 
+  currentSystemName = currentSystem['WorldName']
+  #print('\nPress a key',keys)
   playerKey = getch.getch()
   possibleKey = False
   if playerKey == chr(27): # quit

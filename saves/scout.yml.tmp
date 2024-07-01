@@ -3,10 +3,10 @@ crew:
 - pilot
 - astrogator
 - engineer
-day: 7
+day: 14
 location:
   sector: Deneb
-  system: Frisgar
+  system: Tlaza
 ship:
   armor:
     armour: 4

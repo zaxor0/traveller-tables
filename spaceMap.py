@@ -5,6 +5,7 @@ from tables import *
 from possibleWorlds import *
 
 import datetime
+import getch
 import math
 import os
 import sys
@@ -73,21 +74,29 @@ def printMap(world, sector, parsecs, jumpRange):
     if column == 0:
       for row in range(height):
         pos = row
-        mapKeyString = ' | ' + letterSystemArray[pos] 
+        # this is the letter + the system name
+        length = len(letterSystemArray[pos])
+        if length > 13:
+          tab = '   '
+        elif length < 12:
+          tab = '\t' 
+        elif length < 8:
+          tab = '\t\t' 
+        mapKeyString = ' | ' + letterSystemArray[pos] + tab 
         mapKey.append(mapKeyString)
     elif column >= 1:
       for row in range(height):
         pos = row + (height * column)
         try:
           letterSystemArray[pos]
-          if len(mapKey[row]) < 12:
-            tab = '\t\t'
-          else:
+          if len(letterSystemArray[pos]) > 12:
             tab = '\t'
-          mapKeyString = mapKey[row] + tab + ' | ' + letterSystemArray[pos] 
+          else:
+            tab = '\t\t'
+          mapKeyString = mapKey[row] + ' | ' + letterSystemArray[pos] + tab 
           mapKey[row] = mapKeyString
         except:
-          mapKeyString = mapKey[row] + tab + ' | ' 
+          mapKeyString = mapKey[row] + ' | ' 
           mapKey[row] = mapKeyString
     
   possibleDots = [ '   ','   ','   ', '.  ',' . ','  .' ]
@@ -143,18 +152,22 @@ def possibleJumps(world, jumpRange, letterSystemArray):
         currentWorld = letteredSystem
       elif rSystem['Name'] == lSystem and rSystem['Name'] != world['WorldName']:
         reachableWorlds = reachableWorlds + letteredSystem + '    '
-  print('# You are in: ',currentWorld)
-  print('# You can jump to: ',reachableWorlds)
+  print('# You are in: ',currentWorld,' and you can jump to: ')
+  print(' ',reachableWorlds,'\n')
     
 def printWorldDetails(nearbySystems,sector):
-  selectedWorld = input('Select a world (letter) for more info\n> ')
-  for system in nearbySystems:
-    if selectedWorld == nearbySystems[system]['letter']:
-      world = worldSearch(system, sector)
-      world = worldDetailed(world)
-  print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
-  print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
-  print('Remarks:',world['WorldRemarks'])
-  uwp = uwpTranslator(world['WorldUwp'])
-  for feature in uwp:
-    print(feature,'-',uwp[feature])
+  print('Select a world (letter) for more info, or ESC to return to previous menu')
+  playerKey = getch.getch()
+  if playerKey != chr(27): # quit
+    selectedWorld = playerKey
+    for system in nearbySystems:
+      if selectedWorld == nearbySystems[system]['letter']:
+        world = worldSearch(system, sector)
+        world = worldDetailed(world)
+    print('Sector:',world['SectorName'],'Sub Sector:',world['SubsectorName'])
+    print('World:',world['WorldName'],'\tUWP:',world['WorldUwp'])
+    print('Remarks:',world['WorldRemarks'])
+    uwp = uwpTranslator(world['WorldUwp'])
+    for feature in uwp:
+      print(feature,'-',uwp[feature])
+    input('press Enter to continue')
