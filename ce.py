@@ -119,6 +119,7 @@ starportQuality = {
          }
  }
 
+# ce srd page 172
 worldGovernment = {
   '0' : {'Government Type' : 'None' },
   '1' : {'Government Type' : 'Company/Corporation' },
@@ -138,189 +139,228 @@ worldGovernment = {
   'F' : {'Government Type' : 'Totalitarian Oligarchy' }
 }
 
+# ce srd page 172-3
 worldLawLevel = {
-  '0' : { 'Descriptor' : 'No Law',      'Not Allowed' : 'No restrictions – heavy armour and a handy weapon recommended...' },
-  '1' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Poison gas, explosives, undetectable weapons, WMDs', 'Armour' : 'Battle dress' },
-  '2' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Portable energy and laser weapons', 'Armour' : 'Combat armour' },
-  '3' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Military weapons', 'Armour' : 'Flak' },
-  '4' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'Light assault weapons and submachine guns', 'Armour' : 'Cloth' },
-  '5' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'Personal concealable weapons', 'Armour' : 'Mesh' },
-  '6' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'All firearms except shotguns & stunners; carrying weapons discouraged', 'Armour' : '' },
-  '7' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'Shotguns', 'Armour' : '' },
-  '8' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'All bladed weapons,stunners', 'Armour' : 'All visible armour' },
-  '9' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'All weapons', 'Armour' : 'All armour' }
-  'A' : { 'Descriptor' : 'Extreme Law', 'Not Allowed' : 'All weapons', 'Armour' : 'All armour' }
+  '0' : { 'Descriptor' : 'No Law',      'Not Allowed' : 'No restrictions', 'Amber Zone' : 'Candidate' },
+  '1' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Poison gas, explosives, undetectable weapons, weapons of mass desctruction' },
+  '2' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Portable energy weapons (except ship-mounted)' },
+  '3' : { 'Descriptor' : 'Low Law',     'Not Allowed' : 'Heavy weapons' },
+  '4' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'Light assault weapons and submachine guns' },
+  '5' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'Personal concealable weapons' },
+  '6' : { 'Descriptor' : 'Medium Law',  'Not Allowed' : 'All firearms except shotguns and stunners; carrying weapons discouraged' },
+  '7' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'Shotguns'},
+  '8' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'All bladed weapons,stunners' },
+  '9' : { 'Descriptor' : 'High Law',    'Not Allowed' : 'Any weapons outside one\'s residence', 'Amber Zone' : 'Candidate' }
+  'A' : { 'Descriptor' : 'Extreme Law', 'Not Allowed' : 'Any weapons allowed at all', 'Amber Zone' : 'Candidate' }
 }
 
-
+# ce srd page 66
 worldTechLevel = {
   '0' : { 
     'Level' : 'Primitive', 
-    'Description' : 'No technology. TL0 worlds have only discovered the simplest tools and principles and are on par with Earth’s Stone Age.' },
+    'Description' : 'No technology.'
+    },
   '1' : { 
     'Level' : 'Primitive', 
-    'Description' : 'Roughly on a par with Bronze or Iron age technology. TL1 science is mostly superstition but manufacture weapons and work metals.' },
+    'Description' : 'Roughly on a par with Bronze or Iron age technology.'
+    },
   '2' : { 
       'Level' : 'Primitive', 
-      'Description' : 'Renaissance technology. TL2 brings with it a greater understanding of chemistry, physics, biology and astronomy as well as the scientific method.' },
+      'Description' : 'Renaissance technology.'
+      },
   '3' : { 
       'Level' : 'Primitive', 
-      'Description' : 'The advances of TL2 are now applied, bringing the germ of industrial revolution and steam power. Primitive firearms now dominate the battlefield. This is roughly comparable to the early 19th Century.' },
+      'Description' : 'Mass production allows for product standardization, bringing the germ of industrial revolution and steam power.'
+      },
   '4' : { 
       'Level' : 'Industrial', 
-      'Description' : 'The transition to industrial revolution is complete, bringing plastics, radio and other such inventions. Roughly comparable to the late 19th/early 20th Century.' },
+      'Description' : 'Transition to industrial revolution is complete, bringing plastics, radio and other such inventions.'
+      },
   '5' : { 
       'Level' : 'Industrial', 
-      'Description' : 'TL5 brings widespread electrification, telecommunications and internal combustion. At the high end of the TL, atomics and primitive computing appear. Roughly on a par with the mid-20th Century.' },
+      'Description' : 'Widespread electrification, tele-communications and internal combustion.'
+      },
   '6' : { 
       'Level' : 'Industrial', 
-      'Description' : 'TL6 brings the development of fission power and more advanced computing. Advances in materials technology and rocketry bring about the dawn of the space age.' },
+      'Description' : 'Development of fission power and more advanced computing.'
+      },
   '7' : { 
       'Level' : 'Pre-Stellar', 
-      'Description' : 'A pre-stellar society can reach orbit reliably and has telecommunications satellites. Computers and integrated circuits become ubiquitous. At the time of writing, Earth is currently somewhere between TL7 and TL8.' },
+      'Description' : 'Can reach orbit reliably and has telecommunications satellites.'
+      },
   '8' : { 
       'Level' : 'Pre-Stellar', 
-      'Description' : 'At TL8, it is possible to reach other worlds in the same star system, although terraforming or full colonisation are not within the culture’s capacity. Permanent space habitats become possible. Fusion power becomes commercially viable.' },
+      'Description' : 'Possible to reach other worlds in the same star system, terraforming or full colonisation are not within the culture’s capacity.'
+      },
   '9' : { 
       'Level' : 'Pre-Stellar', 
-      'Description' : 'The defining element of TL9 is the development of gravity manipulation, which makes space travel vastly safer and faster. This research leads to development of the jump drive, which occurs near the end of this Tech Level. TL9 cultures can colonise other worlds, although travelling to a colony is often a one-way trip.' },
+      'Description' : 'Development of gravity manipulation, which makes space travel vastly safer and faster; first steps into Jump Drive technology'
+      },
   'A' : { 
       'Level' : 'Early Stellar', 
-      'Description' : 'With the advent of commonly available jump drives, nearby systems are opened up. Orbital habitats and factories become common. Interstellar travel and trade lead to an economic boom. Colonies become much more viable. ' },
+      'Description' : 'With the advent of Jump, nearby systems are opened up.'
+      },
   'B' : { 
       'Level' : 'Early Stellar', 
-      'Description' : 'The first true artificial intelligences become possible, as computers are able to model synaptic networks. Grav- supported structures reach to the heavens. Jump-2 travel becomes possible, allowing easier travel beyond the one jump stellar mains ' },
+      'Description' : 'The first primitive (non-creative) artificial intelligences become possible in the form of "low autonomous" interfaces, as computers begin to model synaptic networks'
+      },
   'C' : { 
       'Level' : 'Average Stellar', 
-      'Description' : 'Planetwide weather control revolutionises terraforming and agriculture. Portable plasma weapons and carrier-mounted fusion guns make the battlefield untenable for unarmoured combatants. Jump-3 travel is developed.' },
+      'Description' : 'Weather control revolutionises terraforming and agriculture.'
+      },
   'D' : { 
       'Level' : 'Average Stellar', 
-      'Description' : 'Battle dress appears on the battlefield in response to new weapons, heralding the pinnacle of personal armour and making infantry the equivalent of less advanced armoured vehicles. Cloning of body partsbecomes easy. Jump-4 travel appears.' },
+      'Description' : 'Battle dress appears on the battlefield in response to new weapons."High autonomous" interfaces allow computers to become self-actuating and self-teaching'
+      },
   'E' : { 
       'Level' : 'Average Stellar', 
-      'Description' : 'Fusion weapons become portable. Flying cities appear. Jump-5 drives are built.' },
+      'Description' : 'Fusion weapons become man-portable.'
+      },
   'F' : { 
       'Level' : 'High Stellar', 
-      'Description' : 'Black globe generators suggest a new direction for defensive technologies, while the development of synthetic anagathics means that human lifespan is now vastly increas' }
+      'Description' : 'Black globe generators suggest a new direction for defensive technologies, while the development of synthetic anagathics means that human lifespan is now vastly increased'
+      }
 }
 
-# from mgt2e core rules pg 260-1
+# ce srd page 174
 readableTradeCodes = { 
- 'Ag' : 'Agricultural', 'As' : 'Asteroid', 'Ba' : 'Barren', 'De' : 'Desert', 'Fl' : 'Fluid Oceans', 'Ga' : 'Garden', 'Hi' : 'High Pop', 
- 'Ht' : 'High Tech', 'Ic' : 'Ice Capped', 'In' : 'Industrial', 'Lo' : 'Low Pop', 'Lt' : 'Low Tech', 'Na' : 'Non Agricultural', 
- 'Ni' : 'Non Industrial', 'Po' : 'Poor', 'Ri' : 'Rich', 'Va' : 'Vacuum', 'Wa' : 'Water World'
+ 'Ag' : 'Agricultural',     'As' : 'Asteroid',       'Ba' : 'Barren',     'De' : 'Desert',     'Fl' : 'Fluid Oceans',   'Ga' : 'Garden', 
+ 'Hi' : 'High Pop',         'Ht' : 'High Tech',      'Ic' : 'Ice Capped', 'In' : 'Industrial', 'Lo' : 'Low Pop',        'Lt' : 'Low Tech', 
+ 'Na' : 'Non Agricultural', 'Ni' : 'Non Industrial', 'Po' : 'Poor',       'Ri' : 'Rich',       'Va' : 'Vacuum',         'Wa' : 'Water World'
   }
 
 
-# from mgt2e core rules page 244-5
+# ce srd page 116 
+commonGoods = {
+  'Basic Consumable Goods'   : { 'Cost' : 1000,  'Tons' : '2D6x5' },
+  'Basic Elextronics'        : { 'Cost' : 25000, 'Tons' : '2D6x5' },
+  'Basic Machine Parts'      : { 'Cost' : 10000, 'Tons' : '2D6x5' },
+  'Basic Manufactured Goods' : { 'Cost' : 20000, 'Tons' : '2D6x5' },
+  'Basic Raw MAterials'      : { 'Cost' : 5000,  'Tons' : '2D6x5' },
+  'Basic Unrefined Ore'      : { 'Cost' : 2000,  'Tons' : '2D6x5' }
+  }
+
+# ce srd page 116 
 tradeGoods = {
-  11 : { 'type' : 'Common Electronics', 'availability' : 'All', 'tons' : '2D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  11 : { 'Advanced Electronics',        'base price' : 100000,  'tons' : '1D6x5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  12 : { 'type' : 'Common Industrial Goods', 'availability' : 'All', 'tons' : '2D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  12 : { 'Advanced Manufactured Goods', 'base price' : 200000,   'tons' : '1D6x5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  13 : { 'type' : 'Common Manufactured Goods', 'availability' : 'All', 'tons' : '2D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  13 : { 'Agricultural Equipment',      'base price' : 150000,   'tons' : '1D6',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  14 : { 'type' : 'Common Raw Materials', 'availability' : 'All', 'tons' : '2D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  14 : { 'Animal Products',             'base price' : 1500,     'tons' : '4D6x5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  15 : { 'type' : 'Common Consumables', 'availability' : 'All', 'tons' : '2D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  15 : { 'Collectibles',                'base price' : 20000,    'tons' : '1D x 5', 
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  16 : { 'type' : 'Common Ore', 'availability' : 'All', 'tons' : '2D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  16 : { 'Computers & Parts'            'base price' : 20000,    'tons' : '1D x 5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  21 : { 'type' : 'Advanced Electronics', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  21 : { 'Crystals & Gems',             'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  22 : { 'type' : 'Advanced Machine Parts', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  22 : { 'Cybernetic Parts',            'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  23 : { 'type' : 'Advanced Manufactured Goods', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  23 : { 'Food Service Equip.',         'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  24 : { 'type' : 'Advanced Weapons', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  24 : { 'Furniture',                   'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  25 : { 'type' : 'Advanced Vehicles', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  25 : { 'Gambling Devices & Equip.',   'base price' : 20000,    'tons' : '1D x 5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  26 : { 'type' : 'Biochemicals', 'availability' : {'Agricultural', 'Water World'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  26 : { 'Grav Vehicles' ,              'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  31 : { 'type' : 'Crystals & Gems', 'availability' : {'Asteroid','Desert','Ice Capped'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  31 : { 'Grocery Prodcuts',            'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  32 : { 'type' : 'Cybernetics', 'availability' : 'High Tech', 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  32 : { 'Household Appliances',        'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  33 : { 'type' : 'Live Animals', 'availability' : {'Agricultural','Garden'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  33 : { 'Industrial Supplies',         'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  34 : { 'type' : 'Luxury Consumables', 'availability' : {'Agricultural','Garden','Water World'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  34 : { 'Liquor & Intoxicants',        'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  35 : { 'type' : 'Luxury Goods', 'availability' : 'High Pop', 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  35 : { 'Luxury Goods',                'base price' : 20000,    'tons' : '1D x 5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  36 : { 'type' : 'Medical Supplies', 'availability' : {'High Tech', 'High Pop'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  36 : { 'Manufacturing Equip.',        'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  41 : { 'type' : 'Petrochemicals', 'availability' : {'Desert','Fluid Oceans','Ice Capped','Water World'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  41 : { 'Medical Equip.',              'base price' : 20000,    'tons' : '1D x 20',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  42 : { 'type' : 'Pharmaceuticals', 'availability' : {'asteroid','Desert','High Pop','Water World'}, 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  42 : { 'Petrochemicals',              'base price' : 20000,    'tons' : '1D x 20',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  43 : { 'type' : 'Polymers', 'availability' : 'Industrial', 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  43 : { 'Pharmaceuticals',             'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  44 : { 'type' : 'Precious Metals', 'availability' : {'Asteroid','Desert','Ice Capped','Fluid Oceans'}, 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  44 : { 'Polymers',                    'base price' : 20000,    'tons' : '1D x 20',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  45 : { 'type' : 'Radioactives', 'availability' : {'Asteroid','Desert','Low Pop'}, 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  45 : { 'Precious Metals',             'base price' : 20000,    'tons' : '1D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  46 : { 'type' : 'Robots', 'availability' : 'Industrial', 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  46 : { 'Radioactives',                'base price' : 20000,    'tons' : '1D x 5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  51 : { 'type' : 'Spices', 'availability' : {'Garden','Desert','Water World'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  51 : { 'Robots & Drones',             'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  52 : { 'type' : 'Textiles', 'availability' : {'Agricultural','Non Industrial'}, 'tons' : '1D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  52 : { 'Scientific Equipment',        'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  53 : { 'type' : 'Uncommon Ore', 'availability' : {'Asteroid','Ice Capped'}, 'tons' : '1D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  53 : { 'Survival Gear',               'base price' : 20000,    'tons' : '1D',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  54 : { 'type' : 'Uncommon Raw Materials', 'availability' : {'Agricultural','Desert','Water World'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  54 : { 'Textiles',                    'base price' : 20000,    'tons' : '1D x 5',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     },
-  55 : { 'type' : 'Wood', 'availability' : {'Agricultural','Garden'}, 'tons' : '1D x 20', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  56 : { 'type' : 'Vehicles', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  61 : { 'type' : 'Illegal Biochemicals', 'availability' : {'Agricultural','Water World'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  62 : { 'type' : 'Illegal Cybernetics', 'availability' : 'High Tech', 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  63 : { 'type' : 'Illegal Drugs', 'availability' : {'Asteroid','Desert','HIgh Pop','Water World'}, 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  64 : { 'type' : 'Illegal Luxuries', 'availability' : {'Agricultural','Garden','Water World'}, 'tons' : '1D', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  65 : { 'type' : 'Illegal Weapons', 'availability' : {'Industrial','High Tech'}, 'tons' : '1D x 5', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
-    },
-  66 : { 'type' : 'Exotics', 'availability' : '', 'tons' : '2D x 10', 'base price' : 20000,
-    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 'sale DM' : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+  55 : { 'Uncommon Raw Materials',      'base price' : 20000,    'tons' : '2D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
+    }
+  56 : { 'Uncommon Unrefined Ore',      'base price' : 20000,    'tons' : '2D x 10',
+    'purchase DM' : { 'Industrial' : 2, 'High Tech' : 3, 'Rich' : 1 }, 
+    'sale DM'     : { 'Non Inudstrial' : 2, 'Low Tech' : 1, 'Poor' : 1},
     }
 }
 
