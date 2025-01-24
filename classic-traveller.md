@@ -40,7 +40,7 @@ These are a summarization of the classic traveller rules, made to be more easily
 - First generate your characteristics, in the game these will determine your **reactions** and **abilities**.
 - For each characteristic on the characteristics table roll 2d6 and record the result on a character sheet.
 - Results are between 2 and 12, 7 being average, and these could be modified down to 1 and up to 15.
-- A value would only go below 1 due to calamatous injury or aging, which can happen during character creation.
+- Results below 1 only occur due to calamatous injury or aging, which can happen during character creation.
 
 ### Characteristics Table
 | Characteristic | Acronym | Description                                    |
